@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Point_of_Sale:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Point_of_Sale_jar</output-path>
+    <root id="archive" name="Point_of_Sale.jar">
+      <element id="module-output" name="Point_of_Sale" />
+      <element id="module-source" name="Point_of_Sale" />
+    </root>
+  </artifact>
+</component>
