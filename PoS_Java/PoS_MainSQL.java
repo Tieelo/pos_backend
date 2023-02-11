@@ -21,7 +21,10 @@ public class PoS_MainSQL {
         String[] receiptItems = new String[maxBuyingItems];
 
         char exit = 'j';// while Schleife um das Programm immer wieder von vorne starten zu lassen. Lässt sich sicher eleganter lösen, Lösung noch nicht bekannt
+
         while (exit != 'n') {
+            clearScreen();
+            System.out.println("Gib die <ID> der Gruppe ein");
             group_choose();
             System.out.print("Gib '<Getränk> <Menge>' ein, die verkauft werden soll gefolgt von 'Enter'\n" +
                     "Wähle die Artikel Gruppe neu mit 'gruppen'\n" +
@@ -42,8 +45,11 @@ public class PoS_MainSQL {
                     amount = Double.parseDouble(tokens[1]);
                     for (int count = 0; count < totalSQLItems; count++) {
                         if (itemArray[count].getName().equalsIgnoreCase(name)) {
-                            receiptItems[countOfItems] = String.format("%-19s %.2f€ %-12s %.2f", name, itemArray[count].getPrice(), "", amount);
-                            boughtArrayToSQL[countOfItems] = String.format("%d %.2f %s %.2f %.2f", itemArray[count].getId(), itemArray[count].getStock() - amount, name, itemArray[count].getPrice(), amount);
+                            receiptItems[countOfItems] = String.format("%-19s %.2f€ %-12s %.2f",
+                                    name, itemArray[count].getPrice(), "", amount);
+                            boughtArrayToSQL[countOfItems] = String.format("%d %.2f %s %.2f %.2f",
+                                    itemArray[count].getId(), itemArray[count].getStock() - amount,
+                                    name, itemArray[count].getPrice(), amount);
                             itemArray[count].decreaseStock(amount);
                             totalPrice += amount * itemArray[count].getPrice();
                             countOfItems++;
@@ -249,5 +255,9 @@ public class PoS_MainSQL {
         System.out.println("\nVielen Dank für Ihren Besuch");
         System.out.println("             Kommen Sie gerne wieder");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    public static void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
