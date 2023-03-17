@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Point_of_Sale_jar</output-path>
     <root id="archive" name="Point_of_Sale.jar">
       <element id="module-output" name="Point_of_Sale" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/gson-2.8.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/sqlite-jdbc-3.40.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar" path-in-jar="/" />
     </root>
