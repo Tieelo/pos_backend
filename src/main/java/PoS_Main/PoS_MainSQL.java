@@ -140,10 +140,8 @@ public class PoS_MainSQL {
               dbConnection.getConnection().commit();
           }
           stmt.close();
-//          dbConnection.getConnection().close();
       } catch (Exception e) {
          System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        // System.exit(0);
       }
   }
     public static char stringToChar() {
@@ -156,7 +154,7 @@ public class PoS_MainSQL {
         try {
             Statement stmt = dbConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT groups_id, group_names FROM groups order by groups_id;");
-            System.out.printf("ID  Gruppennamen \n");
+            System.out.print("ID  Gruppennamen \n");
             while (rs.next()) {
                 int groups_id = rs.getInt("groups_id");
                 String group_names = rs.getString("group_names");
@@ -165,10 +163,8 @@ public class PoS_MainSQL {
             }
             rs.close();
             stmt.close();
-//            dbConnection.getConnection().close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
         }
     }
     public static void group_choose() {
@@ -207,10 +203,8 @@ public class PoS_MainSQL {
             }
             rs.close();
             stmt.close();
-//            dbConnection.getConnection().close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-           // System.exit(0);
         }
     }
     public static void printReceipt(String[] receiptItems) {
