@@ -5,12 +5,10 @@ import java.util.Scanner;
 import java.sql.*;
 import java.time.YearMonth;
 public class PoS_MainSQL {
-
-
+    private static final String DB_URL = "jdbc:sqlite::resource:PoS_SQLite.sqlite";
+    private static DatabaseConnection dbConnection;
     private static final int maxDisplayItems = 16; //idealerweise wird vor Programm Beginn abgefragt wie viele Zeilen die Datenbank hat und anschließen der Wert aller Zeilen als Wert gesetzt
     private static final int maxBuyingItems = 20; //willkürlich, kann erhöht werden
-    private static String name;
-    private static double amount;
     private static final Items[] itemArray = new Items[maxDisplayItems]; //array für das Inventar
     private static int totalSQLItems = 0; //Counter für die Anzahl der items im Array
     private static double totalPrice = 0; //Akkumulierter Preis des Einkaufs
@@ -21,9 +19,11 @@ public class PoS_MainSQL {
         String[] boughtArrayToSQL = new String[maxBuyingItems];
         String[] receiptItems = new String[maxBuyingItems];
 
+
         char exit = 'j';// while Schleife um das Programm immer wieder von vorne starten zu lassen. Lässt sich sicher eleganter lösen, Lösung noch nicht bekannt
 
         while (exit != 'n') {
+            dbConnection = new DatabaseConnection(DB_URL);
             clearScreen();
             System.out.println("Gib die <ID> der Gruppe ein");
             group_choose();
@@ -32,6 +32,7 @@ public class PoS_MainSQL {
                     "Wenn du fertig bist, schreibe 'fertig' um den Einkauf zu beenden \n");
             printInventory();
 
+            totalPrice = 0;
             countOfItems = 0; //Neuer Kauf, keine Artikel
             while (!(input = in.nextLine()).equals("fertig")) {
                 if (input.equals("gruppen")) {
@@ -41,9 +42,9 @@ public class PoS_MainSQL {
                 String[] tokens = input.split(" "); //Auftrennung des Strings in einzelne Strings zur Weiterverarbeitung
 
                 if (tokens.length > 1) {//umgeht eine Exception bei Ausbruch durch 'fertig'
-                    name = tokens[0];
+                    String name = tokens[0];
                     tokens[1] = tokens[1].replaceAll(",", ".");
-                    amount = Double.parseDouble(tokens[1]);
+                    double amount = Double.parseDouble(tokens[1]);
                     for (int count = 0; count < totalSQLItems; count++) {
                         if (itemArray[count].getName().equalsIgnoreCase(name)) {
                             receiptItems[countOfItems] = String.format("%-19s %.2f€ %-12s %.2f",
@@ -80,8 +81,7 @@ public class PoS_MainSQL {
         }
     }
     public static void exportInvoice(String[] Einkauf){
-        Connection c = null;
-        Statement stmt = null;
+
         String invoiceNr = "000000/00";
         String[] invoiceArray;
         int invoiceYear = YearMonth.now().getYear();
@@ -90,10 +90,7 @@ public class PoS_MainSQL {
         double amountSold;
 
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite::resource:PoS_SQLite.sqlite");
-            c.setAutoCommit(false);
-            stmt = c.createStatement();
+            Statement stmt = dbConnection.getConnection().createStatement();
 
             ResultSet rs = stmt.executeQuery("SELECT bill_number FROM invoice WHERE invoice_id=" +
                     "(SELECT seq FROM sqlite_sequence WHERE name='invoice')");
@@ -101,7 +98,6 @@ public class PoS_MainSQL {
             invoiceArray = invoiceNr.split("/");
             integerInvoiceNumber = Integer.parseInt(invoiceArray[0]) +1;
             invoiceNr = String.format("%06d/%d", integerInvoiceNumber, invoiceYear);
-            String sql;
             for (String invoice : Einkauf) {
                 if (invoice == null) {
                     break;
@@ -113,30 +109,21 @@ public class PoS_MainSQL {
                 String itemName = (exportInvoice[2]);
                 amountSold = Double.parseDouble(exportInvoice[4]);
                 price = Double.parseDouble(exportInvoice[3])* amountSold;
-               // sql = "INSERT into invoice (item_name, amount, total_price, bill_cost, bill_number)" +
-                 //       " VALUES ('"+itemName+"',"+stock+","+price+","+totalPrice+",'"+invoiceNr+"');";
-                sql = String.format(Locale.US, "INSERT into invoice (item_name, amount, total_price, bill_cost, bill_number, storno)" +
+                String query = String.format(Locale.US, "INSERT into invoice (item_name, amount, total_price, bill_cost, bill_number, storno)" +
                         " VALUES ('%s', %.2f, %.2f, %.2f, '%s', FALSE);", itemName, amountSold, price, totalPrice, invoiceNr);
-                stmt.executeUpdate(sql);
-                c.commit();
+                stmt.executeUpdate(query);
+                dbConnection.getConnection().commit();
             }
-            stmt.close();
-            c.close();
+                stmt.close();
+//              dbConnection.getConnection().close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             //System.exit(0);
         }
     }
     public static void updateInventory(String[] Einkauf) {
-      Connection c = null;
-      Statement stmt = null;
-
       try {
-          Class.forName("org.sqlite.JDBC");
-          c = DriverManager.getConnection("jdbc:sqlite::resource:PoS_SQLite.sqlite");
-          c.setAutoCommit(false);
-
-          stmt = c.createStatement();
+          Statement stmt = dbConnection.getConnection().createStatement();
           String[] export;
           int itemsId;
           double stock;
@@ -148,16 +135,13 @@ public class PoS_MainSQL {
               itemsId = Integer.parseInt(export[0]);
               export[1] = export[1].replaceAll(",", ".");
               stock = Double.parseDouble(export[1]);
-             // System.out.println(itemsId + " " + stock);
-              String sql = "UPDATE items set item_amount = " + stock + " where items_id =" + itemsId + ";";
-              stmt.executeUpdate(sql);
-              c.commit();
+              String query = "UPDATE items set item_amount = " + stock + " where items_id =" + itemsId + ";";
+              stmt.executeUpdate(query);
+              dbConnection.getConnection().commit();
           }
           stmt.close();
-          c.close();
       } catch (Exception e) {
          System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        // System.exit(0);
       }
   }
     public static char stringToChar() {
@@ -167,16 +151,10 @@ public class PoS_MainSQL {
         return charInput.charAt(0);
     }
     public static void printGroups() {
-        Connection c;
-        Statement stmt;
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite::resource:PoS_SQLite.sqlite");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
+            Statement stmt = dbConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT groups_id, group_names FROM groups order by groups_id;");
-            System.out.printf("ID  Gruppennamen \n");
+            System.out.print("ID  Gruppennamen \n");
             while (rs.next()) {
                 int groups_id = rs.getInt("groups_id");
                 String group_names = rs.getString("group_names");
@@ -185,10 +163,8 @@ public class PoS_MainSQL {
             }
             rs.close();
             stmt.close();
-            c.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
         }
     }
     public static void group_choose() {
@@ -204,14 +180,8 @@ public class PoS_MainSQL {
         }
     }
     public static void getItems(int group_input) {
-        Connection c = null;
-        Statement stmt = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite::resource:PoS_SQLite.sqlite");
-            c.setAutoCommit(false);
-
-            stmt = c.createStatement();
+            Statement stmt = dbConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names " +
                     "FROM items i " +
                     "JOIN groups g " +
@@ -233,10 +203,8 @@ public class PoS_MainSQL {
             }
             rs.close();
             stmt.close();
-            c.close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-           // System.exit(0);
         }
     }
     public static void printReceipt(String[] receiptItems) {
