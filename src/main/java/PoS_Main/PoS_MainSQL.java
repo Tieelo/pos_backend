@@ -115,7 +115,6 @@ public class PoS_MainSQL {
                 dbConnection.getConnection().commit();
             }
                 stmt.close();
-//              dbConnection.getConnection().close();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             //System.exit(0);
