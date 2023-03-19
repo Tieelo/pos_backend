@@ -27,9 +27,11 @@ public class PoS_MainSQL {
             clearScreen();
             System.out.println("Gib die <ID> der Gruppe ein");
             group_choose();
-            System.out.print("Gib '<Getränk> <Menge>' ein, die verkauft werden soll gefolgt von 'Enter'\n" +
-                    "Wähle die Artikel Gruppe neu mit 'gruppen'\n" +
-                    "Wenn du fertig bist, schreibe 'fertig' um den Einkauf zu beenden \n");
+            System.out.print("""
+                    Gib '<Getränk> <Menge>' ein, die verkauft werden soll gefolgt von 'Enter'
+                    Wähle die Artikel Gruppe neu mit 'gruppen'
+                    Wenn du fertig bist, schreibe 'fertig' um den Einkauf zu beenden\s
+                    """);
             printInventory();
 
             totalPrice = 0;
