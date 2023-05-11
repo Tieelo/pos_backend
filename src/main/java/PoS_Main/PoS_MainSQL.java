@@ -2,6 +2,7 @@ package PoS_Main;
 
 import java.sql.*;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ public class PoS_MainSQL {
   private static DatabaseConnection dbConnection;
   private static final int maxDisplayItems = 16; //idealerweise wird vor Programm Beginn abgefragt wie viele Zeilen die Datenbank hat und anschließen der Wert aller Zeilen als Wert gesetzt
   private static final int maxBuyingItems = 20; //willkürlich, kann erhöht werden
-  private static final Items[] itemArray = new Items[maxDisplayItems]; //array für das Inventar
+  private static final ArrayList<Items> itemArrayList = new ArrayList<>(); //array für das Inventar
   private static int totalSQLItems = 0; //Counter für die Anzahl der items im Array
   private static double totalPrice = 0; //Akkumulierter Preis des Einkaufs
   private static int countOfItems = 0; //Laufvariable die zur Iteration durch das Array funktioniert und am Ende die Menge der Artikel selbst ausgibt
@@ -53,26 +54,26 @@ public class PoS_MainSQL {
           tokens[1] = tokens[1].replaceAll(",", ".");
           double amount = Double.parseDouble(tokens[1]);
           for (int count = 0; count < totalSQLItems; count++) {
-            if (itemArray[count].getName().equalsIgnoreCase(name)) {
+            if (itemArrayList.get(count).getName().equalsIgnoreCase(name)) {
               receiptItems[countOfItems] =
                 String.format(
                   "%-19s %.2f€ %-12s %.2f",
                   name,
-                  itemArray[count].getPrice(),
+                  itemArrayList.get(count).getPrice(),
                   "",
                   amount
                 );
               boughtArrayToSQL[countOfItems] =
                 String.format(
                   "%d %.2f %s %.2f %.2f",
-                  itemArray[count].getId(),
-                  itemArray[count].getStock() - amount,
+                  itemArrayList.get(count).getId(),
+                  itemArrayList.get(count).getStock() - amount,
                   name,
-                  itemArray[count].getPrice(),
+                  itemArrayList.get(count).getPrice(),
                   amount
                 );
-              itemArray[count].decreaseStock(amount);
-              totalPrice += amount * itemArray[count].getPrice();
+              itemArrayList.get(count).decreaseStock(amount);
+              totalPrice += amount * itemArrayList.get(count).getPrice();
               countOfItems++;
               break;
             }
@@ -215,7 +216,7 @@ public class PoS_MainSQL {
 
   public static void printInventory() {
     for (int i = 0; i < totalSQLItems; i++) {
-      System.out.println(itemArray[i].toString());
+      System.out.println(itemArrayList.get(i).toString());
     }
   }
 
@@ -241,7 +242,7 @@ public class PoS_MainSQL {
         double stock = rs.getDouble("item_amount");
         String group_names = rs.getString("group_names");
 
-        itemArray[totalSQLItems] =
+        itemArrayList.add(
           new Items(
             items_id,
             item_name,
@@ -249,7 +250,7 @@ public class PoS_MainSQL {
             item_price,
             stock,
             group_names
-          );
+          ));
         totalSQLItems++;
       }
       rs.close();
