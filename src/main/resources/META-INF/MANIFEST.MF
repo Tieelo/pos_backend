@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: PoS_Main.PoS_MainSQL
+Main-Class: beforeRefactor.PoS_MainSQL
 Class-Path: sqlite-jdbc-3.41.0.jar

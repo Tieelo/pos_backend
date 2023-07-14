@@ -15,7 +15,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>PoS_Main.PoS_MainSQL</mainClass>
+              <mainClass>beforeRefactor.PoS_MainSQL</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -32,7 +32,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>PoS_Main.PoS_MainSQL</mainClass>
+                  <mainClass>beforeRefactor.PoS_MainSQL</mainClass>
                 </transformer>
                 <transformer>
                   <resource>lib/</resource>

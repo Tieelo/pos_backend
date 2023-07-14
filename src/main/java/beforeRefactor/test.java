@@ -1,4 +1,6 @@
-package PoS_Main;
+package beforeRefactor;
+
+import database.DatabaseConnection;
 
 import java.sql.*;
 import java.sql.ResultSet;
@@ -10,7 +12,7 @@ public class test {
             "jdbc:sqlite::resource:PoS_SQLite.sqlite";
     private static DatabaseConnection dbConnection;
     public static void main (String[] args) throws SQLException{
-        dbConnection = new DatabaseConnection(DB_URL);
+        dbConnection = DatabaseConnection.getInstance();
 
             Statement stmt = dbConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * from items");

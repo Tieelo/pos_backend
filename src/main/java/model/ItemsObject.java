@@ -1,6 +1,6 @@
-package PoS_Main;
+package model;
 
-public class Items {
+public class ItemsObject {
 
   private int id;
   private String name; //name of the item
@@ -9,7 +9,7 @@ public class Items {
   private double stock; //
   private String group;
 
-  public Items(
+  public ItemsObject(
     int id,
     String name,
     String measurement,
@@ -28,19 +28,16 @@ public class Items {
   public String getName() {
     return name;
   }
-
   public double getPrice() {
     return price;
   }
-
   public int getId() {
     return id;
   }
-
   public double getStock() {
     return stock;
   }
-
+  public void setStock(double stock) {this.stock = stock; }
   public boolean decreaseStock(double amount) {
     if (amount <= stock) {
       stock -= amount;
@@ -49,7 +46,9 @@ public class Items {
       return false;
     }
   }
-
+  public void increaseStock(double amount){
+    this.stock = this.stock + amount;
+  }
   @Override
   public String toString() {
     return String.format(
@@ -58,7 +57,6 @@ public class Items {
       name,
       price,
       stock,
-      measurement
-    );
+      measurement );
   }
 }

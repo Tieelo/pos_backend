@@ -1,0 +1,215 @@
+package beforeRefactor;
+
+import database.DatabaseConnection;
+import model.ItemsObject;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+
+public class AIHelp {
+    private static final String DB_URL = "jdbc:sqlite::resource:PoS_SQLite.sqlite";
+    private static DatabaseConnection dbConnection;
+    private static final int MAX_DISPLAY_ITEMS = 16;
+    private static final List<Items> ITEMS_LIST = new ArrayList<>();
+    private static double totalPrice;
+    private static Scanner scanner = new Scanner(System.in);
+    private static int countOfItems;
+
+    public static void main.main(String[] args) {
+        boolean nextPurchase = true;
+
+        while (nextPurchase) {
+            dbConnection = DatabaseConnection.getInstance();
+            clearScreen();
+            System.out.println("Enter the <ID> of the group");
+            populateItemsList();
+            displayPurchaseOptions();
+            resetCounters();
+
+            String userInput;
+            List<String> receiptItems = new ArrayList<>();
+            List<String> boughtItemsDetails = new ArrayList<>();
+
+            while (scanner.hasNextLine()) {
+                userInput = scanner.nextLine();
+                handleUserInput(userInput, receiptItems, boughtItemsDetails);
+            }
+
+            processPurchase(receiptItems, boughtItemsDetails);
+            System.out.println("Next purchase? (y/n)");
+            nextPurchase = scanner.next().equals("y");
+        }
+    }
+
+    private static void handleUserInput(String userInput, List<String> receiptItems, List<String> boughtItemsDetails) {
+        switch (userInput) {
+            case "done":
+                break;
+            case "groups":
+                populateItemsList();
+                displayPurchaseOptions();
+                break;
+            default:
+                addItemToCart(userInput, receiptItems, boughtItemsDetails);
+                break;
+        }
+    }
+
+    private static void addItemToCart(String userInput, List<String> receiptItems, List<String> boughtItemsDetails) {
+        String[] userInputParts = userInput.split(" ");
+
+        if (userInputParts.length < 2) {
+            return;
+        }
+        String itemName = userInputParts[0];
+        double itemQuantity = Double.parseDouble(userInputParts[1].replaceAll(",", "."));
+        updateCart(itemName, itemQuantity, receiptItems, boughtItemsDetails);
+    }
+
+    private static void updateCart(String itemName, double itemQuantity, List<String> receiptItems, List<String> boughtItemsDetails) {
+        Optional<Items> optionalItem = ITEMS_LIST.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst();
+
+        if (!optionalItem.isPresent()) {
+            return;
+        }
+
+        Items item = optionalItem.get();
+        double newStock = item.getStock() - itemQuantity;
+
+        if (newStock >= 0) {
+            receiptItems.add(formatReceiptItem(itemName, item.getPrice(), itemQuantity));
+            boughtItemsDetails.add(formatBoughtItemsDetails(item.getId(), newStock, itemName, item.getPrice(), itemQuantity));
+            item.setStock(newStock);
+            totalPrice += itemQuantity * item.getPrice();
+            countOfItems++;
+        } else {
+            System.out.println("Insufficient Stock!");
+        }
+    }
+
+    private static String formatReceiptItem(String itemName, double itemPrice, double itemQuantity) {
+        return String.format("%-19s €%.2f %-12s %.2f", itemName, itemPrice, "", itemQuantity);
+    }
+
+    private static String formatBoughtItemsDetails(int itemId, double newStock, String itemName, double itemPrice, double itemQuantity) {
+        return String.format("%d %.2f %s %.2f %.2f", itemId, newStock, itemName, itemPrice, itemQuantity);
+    }
+
+    private static void processPurchase(List<String> receiptItems, List<String> boughtItemsDetails) {
+        System.out.println("Proceed with purchase? (y/n)");
+
+        if (scanner.next().equals("y")) {
+            updateInventory(boughtItemsDetails);
+            //exportInvoice
+            System.out.println("\n Inventory updated");
+            displayReceiptOption(receiptItems);
+        } else {
+            System.out.println("No charges on inventory");
+        }
+    }
+
+    private static void displayReceiptOption(List<String> receiptItems) {
+        System.out.println("\n Do you want a receipt? (y/n)");
+        if (scanner.next().equals("y")) {
+            printPurchaseReceipt(receiptItems);
+        }
+    }
+
+    //Bunch of helper methods to refactor main.main functionality
+    private static void populateItemsList() {
+        printGroups();
+        System.out.println("Which group? <ID>");
+        int groupChoice = scanner.nextInt();
+        getItemsFromDB(groupChoice);
+    }
+
+    private static void displayPurchaseOptions() {
+        System.out.println(
+                """
+                        Enter '<Drink> <Quantity>' to be sold followed by 'Enter'
+                        Reselect the article group with 'groups'
+                        When you're done, write 'done' to end the purchase
+                        """
+        );
+        printItems();
+    }
+
+    private static void resetCounters() {
+        totalPrice = 0;
+        countOfItems = 0;
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void printGroups() {
+        try {
+            Statement stmt = dbConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT groups_id, group_names FROM groups order by groups_id;"
+            );
+            System.out.print("ID  Gruppennamen \n");
+            while (rs.next()) {
+                int groups_id = rs.getInt("groups_id");
+                String group_names = rs.getString("group_names");
+                System.out.printf("%-3d %s \n", groups_id, group_names);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    public static void getItemsFromDB(int group_input) {
+        try {
+            Statement stmt = dbConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names " +
+                            "FROM items i " +
+                            "JOIN groups g " +
+                            "on i.groups_id = g.groups_id " +
+                            "WHERE i.groups_id=" +
+                            group_input +
+                            ";"
+            );
+            totalSQLItems = 0;
+
+            while (rs.next() && totalSQLItems <= maxDisplayItems) {
+                int items_id = rs.getInt("items_id");
+                String item_name = rs.getString("item_name");
+                String measurement = rs.getString("measurement");
+                double item_price = rs.getDouble("item_price");
+                double stock = rs.getDouble("item_amount");
+                String group_names = rs.getString("group_names");
+
+                itemArrayList.add(
+                        new Items(
+                                items_id,
+                                item_name,
+                                measurement,
+                                item_price,
+                                stock,
+                                group_names
+                        ));
+                totalSQLItems++;
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+    //MORE helper methods to refactor main.main functionality
+
+    /*...Methods: getItemsFromDB, printGroups, printItems, printPurchaseReceipt, updateInventory
+    and all other methods remains the same as in the original code...*/
+}

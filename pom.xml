@@ -61,7 +61,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>PoS_Main.PoS_MainSQL</mainClass>
+                            <mainClass>beforeRefactor.PoS_MainSQL</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -80,7 +80,7 @@
                 <configuration>
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>PoS_Main.PoS_MainSQL</mainClass>
+                            <mainClass>beforeRefactor.PoS_MainSQL</mainClass>
                         </transformer>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
                             <resource>lib/</resource>
