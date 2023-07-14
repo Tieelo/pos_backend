@@ -1,7 +1,6 @@
 package main;
 
 import controller.MenuController;
-import view.MenuView;
 
 public class main {
     private static final MenuController menuController = new MenuController();

@@ -11,15 +11,16 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class AIHelp {
-    private static final String DB_URL = "jdbc:sqlite::resource:PoS_SQLite.sqlite";
     private static DatabaseConnection dbConnection;
-    private static final int MAX_DISPLAY_ITEMS = 16;
-    private static final List<Items> ITEMS_LIST = new ArrayList<>();
+    private static final int maxDisplayItems = 16;
+    private static final List<ItemsObject> ITEMS_LIST = new ArrayList<>();
     private static double totalPrice;
     private static Scanner scanner = new Scanner(System.in);
     private static int countOfItems;
+    private static int totalSQLItems = 0; //Counter für die Anzahl der items im Array
+    private static final ArrayList<ItemsObject> itemArrayList = new ArrayList<>(); //array für das Inventar
 
-    public static void main.main(String[] args) {
+    public static void main(String[] args) {
         boolean nextPurchase = true;
 
         while (nextPurchase) {
@@ -71,7 +72,7 @@ public class AIHelp {
     }
 
     private static void updateCart(String itemName, double itemQuantity, List<String> receiptItems, List<String> boughtItemsDetails) {
-        Optional<Items> optionalItem = ITEMS_LIST.stream()
+        Optional<ItemsObject> optionalItem = ITEMS_LIST.stream()
                 .filter(item -> item.getName().equalsIgnoreCase(itemName))
                 .findFirst();
 
@@ -79,7 +80,7 @@ public class AIHelp {
             return;
         }
 
-        Items item = optionalItem.get();
+        ItemsObject item = optionalItem.get();
         double newStock = item.getStock() - itemQuantity;
 
         if (newStock >= 0) {
@@ -192,7 +193,7 @@ public class AIHelp {
                 String group_names = rs.getString("group_names");
 
                 itemArrayList.add(
-                        new Items(
+                        new ItemsObject(
                                 items_id,
                                 item_name,
                                 measurement,
@@ -208,8 +209,59 @@ public class AIHelp {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
     }
-    //MORE helper methods to refactor main.main functionality
+    public static void updateInventory(List<String> Einkauf) {
+        try {
+            Statement stmt = dbConnection.getConnection().createStatement();
+            String[] export;
+            int itemsId;
+            double stock;
+            for (String i : Einkauf) {
+                if (i == null) {
+                    break;
+                }
+                export = i.split(" ");
+                itemsId = Integer.parseInt(export[0]);
+                export[1] = export[1].replaceAll(",", ".");
+                stock = Double.parseDouble(export[1]);
+                String query =
+                        "UPDATE items set item_amount = " +
+                                stock +
+                                " where items_id =" +
+                                itemsId +
+                                ";";
+                stmt.executeUpdate(query);
+                dbConnection.getConnection().commit();
+            }
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
 
-    /*...Methods: getItemsFromDB, printGroups, printItems, printPurchaseReceipt, updateInventory
-    and all other methods remains the same as in the original code...*/
+    public static void printPurchaseReceipt(List<String> receiptItems) {
+        System.out.println("\n\n");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("           		   Super Bar\n");
+        System.out.println("                   Quittung");
+        System.out.println("                  ~~~~~~~~~\n");
+        System.out.println(
+                "Artikel        " + "Preis pro Einheit       " + "Menge"
+        );
+        System.out.println("______________________________________________\n");
+        for (int i = 0; i < countOfItems; i++) {
+            System.out.println(receiptItems.get(i));
+        }
+        System.out.println("\nMenge der Artikel insgesamt : " + countOfItems);
+        System.out.printf("\nGesamtbetrag: %.2f€ \n", totalPrice);
+        System.out.println("\n               Ende der Quittung");
+        System.out.println("\nVielen Dank für Ihren Besuch");
+        System.out.println("             Kommen Sie gerne wieder");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+    public static void printItems() {
+        for (int i = 0; i < totalSQLItems; i++) {
+            System.out.println(itemArrayList.get(i).toString());
+        }
+    }
+
 }

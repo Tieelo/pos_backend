@@ -8,9 +8,6 @@ import java.time.YearMonth;
 import java.util.*;
 
 public class PoS_MainSQL {
-
-  private static final String DB_URL =
-    "jdbc:sqlite::resource:PoS_SQLite.sqlite";
   private static DatabaseConnection dbConnection;
   private static final int maxDisplayItems = 16; //idealerweise wird vor Programm Beginn abgefragt wie viele Zeilen die Datenbank hat und anschließen der Wert aller Zeilen als Wert gesetzt
   private static final ArrayList<ItemsObject> itemArrayList = new ArrayList<>(); //array für das Inventar

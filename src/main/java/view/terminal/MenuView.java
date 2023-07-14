@@ -1,4 +1,4 @@
-package view;
+package view.terminal;
 
 import java.util.Scanner;
 
