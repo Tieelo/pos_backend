@@ -1,6 +1,6 @@
 package controller;
 
-import model.GroupObject;
+import model.Groups;
 import model.ItemsManager;
 import model.Items;
 import view.terminal.ItemView;
@@ -18,7 +18,7 @@ public class PrintItemController {
         itemView = new ItemView();
     }
     public void fetchAndPrintGroups(){
-        List<GroupObject> groups = itemsManager.getGroups();
+        List<Groups> groups = itemsManager.getGroups();
         itemView.printGroups(groups);
     }
     public void fetchAndPrintItemsByGroup(){

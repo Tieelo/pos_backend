@@ -1,15 +1,15 @@
 package view.terminal;
 
-import model.GroupObject;
+import model.Groups;
 import model.Items;
 
 import java.util.List;
 
 public class ItemView {
-    public void printGroups(List<GroupObject> groups){
+    public void printGroups(List<Groups> groups){
         System.out.println("Welche Gruppe? <ID>");
         System.out.println("ID  Gruppennamen \n");
-        for (GroupObject groupObject : groups) {
+        for (Groups groupObject : groups) {
             System.out.printf("%-3d %s \n", groupObject.getId(), groupObject.getName());
         }
     }

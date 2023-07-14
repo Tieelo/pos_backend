@@ -12,8 +12,8 @@ public class ItemsManager {
     public ItemsManager(){
         dbConnection = DatabaseConnection.getInstance();
     }
-    public List<GroupObject> getGroups() {
-        List<GroupObject> groups = new ArrayList<>();
+    public List<Groups> getGroups() {
+        List<Groups> groups = new ArrayList<>();
         try {
             Statement stmt = dbConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
@@ -22,7 +22,7 @@ public class ItemsManager {
             while (rs.next()) {
                 int groups_id = rs.getInt("groups_id");
                 String group_names = rs.getString("group_names");
-                groups.add(new GroupObject(groups_id, group_names));
+                groups.add(new Groups(groups_id, group_names));
             }
             rs.close();
             stmt.close();

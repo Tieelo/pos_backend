@@ -1,6 +1,6 @@
 package model;
 
-public class GroupObject {
+public class Groups {
         private int groups_id;
         private String groups_name;
 
@@ -12,7 +12,7 @@ public class GroupObject {
         return groups_name;
     }
 
-    public GroupObject(int id, String name) {
+    public Groups(int id, String name) {
             this.groups_id = id;
             this.groups_name = name;
         }
