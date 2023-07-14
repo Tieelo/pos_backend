@@ -52,7 +52,8 @@ public class ItemsObject {
   @Override
   public String toString() {
     return String.format(
-      "%-15s %-15s %.2f€, %.2f %s im Inventar",
+      "%5d %-15s %-15s %.2f€, %.2f %s im Inventar",
+      id,
       group,
       name,
       price,

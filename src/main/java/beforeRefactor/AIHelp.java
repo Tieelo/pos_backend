@@ -121,8 +121,6 @@ public class AIHelp {
             printPurchaseReceipt(receiptItems);
         }
     }
-
-    //Bunch of helper methods to refactor main.main functionality
     private static void populateItemsList() {
         printGroups();
         System.out.println("Which group? <ID>");

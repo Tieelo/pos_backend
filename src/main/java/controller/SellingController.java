@@ -5,5 +5,8 @@ public class SellingController {
     public SellingController(){
         printItemController = new PrintItemController();
     }
+    public void startSale(){
+        printItemController.fetchAndPrintItemsByGroup();
 
+    }
 }

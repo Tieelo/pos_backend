@@ -31,7 +31,7 @@ public class ItemsManager {
         }
         return groups;
     }
-    public List<ItemsObject> getItemsByGroupId(Integer groupId) {
+    public List<ItemsObject> getItems(Integer groupId) {
         List<ItemsObject> items = new ArrayList<>();
         try {
             Statement stmt = dbConnection.getConnection().createStatement();
@@ -43,7 +43,7 @@ public class ItemsManager {
                 query += " WHERE i.groups_id=" + groupId;
             }
 
-            query += ";";
+            query += " ORDER BY i.groups_id;";
 
             ResultSet rs = stmt.executeQuery(query);
 

@@ -13,10 +13,12 @@ public class ItemView {
             System.out.printf("%-3d %s \n", groupObject.getId(), groupObject.getName());
         }
     }
-public void printItems(List<ItemsObject> items) {
-        for (ItemsObject item : items) {
-            System.out.println(item.toString());
+    public void printItems(List<ItemsObject> items) {
+            for (ItemsObject item : items) {
+                System.out.println(item.toString());
+            }
         }
+    public void chooseGroup(){
     }
 
 /*    public void printReceipt(List<ItemManager.Item> receiptItems, double totalPrice, int countOfItems) {

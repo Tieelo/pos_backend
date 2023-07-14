@@ -7,8 +7,10 @@ import java.util.Scanner;
 public class MenuController {
     private Scanner scan = new Scanner(System.in);   // zum Einlesen der Benutzereinzugaben
     private PrintItemController printItemController;
+    private SellingController sellingController;
     public MenuController() {
         printItemController = new PrintItemController();
+        sellingController = new SellingController();
     }
     public void menuOptions() {
         MenuView view = new MenuView();
@@ -37,7 +39,7 @@ public class MenuController {
                     }
                     break;
                 case 2:
-                    // Aufruf des Verkaufscontrollers um den Verkaufsprozess zu starten.
+                    sellingController.startSale();// Aufruf des Verkaufscontrollers um den Verkaufsprozess zu starten.
                     break;
                 case 3:
                     // Aufruf der Methode, welche die letzten Rechnungen zeigt.
