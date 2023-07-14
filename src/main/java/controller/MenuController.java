@@ -31,6 +31,7 @@ public class MenuController {
                             break;
                         case 2: //Gruppen
                             printItemController.fetchAndPrintGroups();
+                            printItemController.fetchAndPrintItemsByGroup();
                             view.pressEnterToContinue();
                             break;
                     }

@@ -21,9 +21,13 @@ public class PrintItemController {
         List<GroupObject> groups = itemsManager.getGroups();
         itemView.printGroups(groups);
     }
+    public void fetchAndPrintItemsByGroup(){
+        int group = scan.nextInt();
+        List<ItemsObject> items = itemsManager.getItemsByGroupId(group);
+        itemView.displayItems(items);
+    }
     public void fetchAndPrintAllItems(){
-        int groupID = scan.nextInt();
-        List<ItemsObject> items = itemsManager.getItemsByGroupId(groupID);
+        List<ItemsObject> items = itemsManager.getItemsByGroupId(null);
         itemView.displayItems(items);
     }
 }
