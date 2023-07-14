@@ -1,7 +1,7 @@
 package view.terminal;
 
 import model.GroupObject;
-import model.ItemsObject;
+import model.Items;
 
 import java.util.List;
 
@@ -13,11 +13,14 @@ public class ItemView {
             System.out.printf("%-3d %s \n", groupObject.getId(), groupObject.getName());
         }
     }
-    public void printItems(List<ItemsObject> items) {
-            for (ItemsObject item : items) {
+    public void printItems(List<Items> items) {
+            for (Items item : items) {
                 System.out.println(item.toString());
             }
         }
+    public void itemSelection(){
+
+    }
     public void chooseGroup(){
     }
 

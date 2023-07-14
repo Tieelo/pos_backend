@@ -1,6 +1,6 @@
 package model;
 
-public class ItemsObject {
+public class Items {
 
   private int id;
   private String name; //name of the item
@@ -9,7 +9,7 @@ public class ItemsObject {
   private double stock; //
   private String group;
 
-  public ItemsObject(
+  public Items(
     int id,
     String name,
     String measurement,

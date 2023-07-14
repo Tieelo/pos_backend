@@ -7,13 +7,13 @@ import java.sql.SQLException;
 public class DatabaseConnection {
   private static final String DB_URL = "jdbc:sqlite::resource:PoS_SQLite.sqlite";
   private static DatabaseConnection instance;
-  private final Connection conn;
+  private final Connection dbConn;
 
   private DatabaseConnection() {
     try {
       Class.forName("org.sqlite.JDBC");
-      conn = DriverManager.getConnection(DB_URL);
-      conn.setAutoCommit(false);
+      dbConn = DriverManager.getConnection(DB_URL);
+      dbConn.setAutoCommit(false);
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     } catch (SQLException e) {
@@ -39,6 +39,6 @@ public class DatabaseConnection {
   }
 
   public Connection getConnection() {
-    return conn;
+    return dbConn;
   }
 }

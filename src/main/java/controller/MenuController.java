@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class MenuController {
     private Scanner scan = new Scanner(System.in);   // zum Einlesen der Benutzereinzugaben
-    private PrintItemController printItemController;
-    private SellingController sellingController;
+    private final PrintItemController printItemController;
+    private final SellingController sellingController;
     public MenuController() {
         printItemController = new PrintItemController();
         sellingController = new SellingController();

@@ -31,8 +31,8 @@ public class ItemsManager {
         }
         return groups;
     }
-    public List<ItemsObject> getItems(Integer groupId) {
-        List<ItemsObject> items = new ArrayList<>();
+    public List<Items> getItems(Integer groupId) {
+        List<Items> items = new ArrayList<>();
         try {
             Statement stmt = dbConnection.getConnection().createStatement();
             String query = "SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names " +
@@ -48,7 +48,7 @@ public class ItemsManager {
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                ItemsObject item = new ItemsObject(
+                Items item = new Items(
                         rs.getInt("items_id"),
                         rs.getString("item_name"),
                         rs.getString("measurement"),
