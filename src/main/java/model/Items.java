@@ -24,6 +24,11 @@ public class Items implements Comparable<Items> {
     this.stock = stock;
     this.group = group;
   }
+  public Items(int id, String name, double price){
+    this.id = id;
+    this.name = name;
+    this.price = price;
+  }
 
   public String getName() {
     return name;
