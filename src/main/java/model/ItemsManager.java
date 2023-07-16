@@ -1,7 +1,5 @@
 package model;
 
-import database.DatabaseConnection;
-
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
