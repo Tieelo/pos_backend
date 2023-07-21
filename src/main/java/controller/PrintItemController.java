@@ -2,7 +2,7 @@ package controller;
 
 import model.Groups;
 import model.ItemsManager;
-import model.Items;
+import model.Item;
 import view.terminal.ItemView;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class PrintItemController {
     public void fetchAndPrintItemsByGroup(){
         fetchAndPrintGroups();
         int group = scan.nextInt();
-        List<Items> items = itemsManager.getItems(group);
+        List<Item> items = itemsManager.getItems(group);
         itemView.printItems(items);
     }
     public void fetchAndPrintAllItems(){
-        List<Items> items = itemsManager.getItems(null);
+        List<Item> items = itemsManager.getItems(null);
         itemView.printItems(items);
     }
 }

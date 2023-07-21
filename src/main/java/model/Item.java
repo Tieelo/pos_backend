@@ -1,6 +1,6 @@
 package model;
 
-public class Items implements Comparable<Items> {
+public class Item implements Comparable<Item> {
 
   private int id;
   private String name; //name of the item
@@ -9,7 +9,7 @@ public class Items implements Comparable<Items> {
   private double stock; //
   private String group;
 
-  public Items(
+  public Item(
     int id,
     String name,
     String measurement,
@@ -24,7 +24,7 @@ public class Items implements Comparable<Items> {
     this.stock = stock;
     this.group = group;
   }
-  public Items(int id, String name, double price){
+  public Item(int id, String name, double price){
     this.id = id;
     this.name = name;
     this.price = price;
@@ -67,7 +67,7 @@ public class Items implements Comparable<Items> {
   }
 
   @Override
-  public int compareTo(Items other) {
+  public int compareTo(Item other) {
     return Double.compare(this.price, other.price);
   }
 }

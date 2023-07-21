@@ -1,13 +1,10 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Cart {
     private static Cart singleInstance = null;
-    private HashMap<Items, Integer> items;
+    private HashMap<Item, Integer> items;
 
     private Cart() {
         items = new HashMap<>();
@@ -19,10 +16,10 @@ public class Cart {
         }
         return singleInstance;
     }
-    public void addItem(Items item, int amount) {
+    public void addItem(Item item, int amount) {
         items.put(item, amount);
     }
-    public void removeItem(Items item, int amount) {
+    public void removeItem(Item item, int amount) {
         Integer currentAmount = items.get(item);
         if (currentAmount != null) {
             if (amount < currentAmount) {
@@ -37,7 +34,7 @@ public class Cart {
     }
     public double getTotalCost() {
         double totalCost = 0.0;
-        for (Items item : items.keySet()) {
+        for (Item item : items.keySet()) {
             totalCost += item.getPrice() * items.get(item);
         }
         return totalCost;
@@ -49,11 +46,11 @@ public class Cart {
     public void clear() {
         items.clear();
     }
-    public boolean contains(Items item) {
+    public boolean contains(Item item) {
         return items.containsKey(item);
     }
     public void printCart() {
-        for (Items item : items.keySet()) {
+        for (Item item : items.keySet()) {
             System.out.printf("%5d %-15s %.2f€ ", item.getId(), item.getName(), item.getPrice() * items.get(item));
         }
         // Add more methods as per your requirements
