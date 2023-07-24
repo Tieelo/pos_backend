@@ -1,6 +1,7 @@
 package controller;
 
 import view.terminal.MenuView;
+import view.terminal.SellingView;
 
 import java.util.Scanner;
 
@@ -32,7 +33,6 @@ public class MenuController {
                             view.pressEnterToContinue();
                             break;
                         case 2: //Gruppen
-                            printItemController.fetchAndPrintGroups();
                             printItemController.fetchAndPrintItemsByGroup();
                             view.pressEnterToContinue();
                             break;

@@ -1,4 +1,4 @@
 package model;
 
-public class Invoice {
+public class Invoice { //stub for saving Invoice Details
 }

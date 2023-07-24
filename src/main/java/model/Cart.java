@@ -17,6 +17,9 @@ public class Cart {
         return singleInstance;
     }
     public void addItem(Item item, int amount) {
+        if (item == null){
+            return;
+        }
         items.put(item, amount);
     }
     public void removeItem(Item item, int amount) {
@@ -53,6 +56,5 @@ public class Cart {
         for (Item item : items.keySet()) {
             System.out.printf("%5d %-15s %.2f€ ", item.getId(), item.getName(), item.getPrice() * items.get(item));
         }
-        // Add more methods as per your requirements
     }
 }
