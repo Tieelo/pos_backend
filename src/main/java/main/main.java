@@ -1,6 +1,6 @@
 package main;
 
-import controller.MenuController;
+import controller.terminal.MenuController;
 import model.Inventory;
 
 public class main {

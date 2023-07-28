@@ -1,4 +1,4 @@
-package controller;
+package controller.terminal;
 
 import model.Cart;
 import model.Inventory;

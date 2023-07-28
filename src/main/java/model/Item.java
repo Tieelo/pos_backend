@@ -65,7 +65,9 @@ public class Item implements Comparable<Item> {
       stock,
       measurement );
   }
-
+  public String[] toStringArray(){
+	  return new String[]{String.valueOf(id), group, name, String.valueOf(price), String.valueOf(stock), measurement};
+  }
   @Override
   public int compareTo(Item other) {
     return Double.compare(this.price, other.price);

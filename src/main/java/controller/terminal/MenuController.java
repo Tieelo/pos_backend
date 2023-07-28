@@ -1,7 +1,6 @@
-package controller;
+package controller.terminal;
 
 import view.terminal.MenuView;
-import view.terminal.SellingView;
 
 import java.util.Scanner;
 
