@@ -1,11 +1,10 @@
 package controller.terminal;
 
+import model.Cart;
 import view.terminal.MenuView;
-
 import java.util.Scanner;
-
 public class MenuController {
-    private Scanner scan = new Scanner(System.in);   // zum Einlesen der Benutzereinzugaben
+    private static final Scanner scanner = new Scanner(System.in);   // zum Einlesen der Benutzereinzugaben
     private final PrintItemController printItemController;
     private final SellingController sellingController;
     public MenuController() {
@@ -19,13 +18,13 @@ public class MenuController {
         while(!exit){
             view.displayMenu();
 
-            System.out.println("Bitte wählen Sie eine Option");
-            int option = scan.nextInt();
+            System.out.print("Bitte wählen Sie eine Option: ");
+            int option = scanner.nextInt();
 
             switch(option) {
                 case 1: // ItemsDisplay
                     view.displayItems();
-                    int option1 = scan.nextInt();
+                    int option1 = scanner.nextInt();
                     switch (option1){
                         case 1: //AlleItems
                             printItemController.fetchAndPrintAllItems();
@@ -52,6 +51,34 @@ public class MenuController {
                     break;
                 default:
                     System.out.println("Ungültige Option, bitte wählen Sie eine gültige Option");
+                    break;
+            }
+        }
+    }
+    public void sellingMenuOptions(){
+        boolean exit = false;
+        MenuView view = new MenuView();
+        InputController inputController = new InputController();
+        Cart cart = Cart.getInstance();
+
+        while (!exit){
+            view.displaySellingMenu();
+            System.out.print("Bitte wählen sie eine Option: ");
+
+            int option = scanner.nextInt();
+            switch (option){
+                case 1:
+                    cart.printCart();
+                    break;
+                case 2:
+                    printItemController.fetchAndPrintSellingItems();
+                    break;
+                case 3:
+                    cart.printCart();
+                    System.out.println("Welches Item in welcher Menge zurücklegen? <ID Menge>");
+                    String input = scanner.nextLine();
+                    int[] idAndAmount = inputController.handleInput(input);
+                    cart.removeItemById(idAndAmount);
                     break;
             }
         }

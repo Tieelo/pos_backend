@@ -49,4 +49,10 @@ public class Inventory {
         }
         return item;
     }
+    public void putItemBackInInventory(int[] idAndAmount){
+        Item item = getItemById(idAndAmount[0]);
+        if (item != null){
+            item.increaseStock(idAndAmount[1]);
+        }
+    }
 }

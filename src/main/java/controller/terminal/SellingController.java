@@ -9,12 +9,15 @@ import java.util.Scanner;
 public class SellingController {
     private static final Scanner scanner = new Scanner(System.in);
     private PrintItemController printItemController;
+    private MenuController menuController;
+    private InputController inputController;
     private Cart cart;
     private Inventory inventory;
     private MenuView menuView;
 
     public SellingController() {
         printItemController = new PrintItemController();
+        inputController = new InputController();
         cart = Cart.getInstance();
         inventory = Inventory.getInstance();
         menuView = new MenuView();
@@ -22,44 +25,18 @@ public class SellingController {
 
     public void startSale() {
         printItemController.fetchAndPrintSellingItems();
-        processInput();
-    }
-
-    public void processInput() {
-        while (scanner.hasNextLine()) {
+        while (scanner.hasNextLine()){
             String input = scanner.nextLine();
-            if (input.equals("fertig")) {
+            if (input.equals("fertig")){
                 break;
-            } else if (input.equals("0")) {
-                menuView.displaySellingMenu();
-            } else if(input == null || input.isEmpty()) {
-                System.out.println("Ungueltige Eingabe (Eingabe ist leer)");
+            } else if (input.equals("0")||input.equals("menu")) {
+                menuController.sellingMenuOptions();
             } else {
-                int[] idAndAmount = seperateString(input);
-                if (idAndAmount.length != 2 ){
-                    System.out.println("Ungueltige Eingabe (Falsche Menge an Integer)");
-                    continue;
+                int[] idAndAmount = inputController.handleInput(input);
+                if (idAndAmount != null){
+                    cart.fillCart(idAndAmount);
                 }
-                cart.fillCart(idAndAmount);
-                cart.printCart();
             }
         }
-    }
-    public int[] seperateString(String string) {
-        if (string == null || string.isEmpty()) {
-            System.out.println("Ungueltige Eingabe (Eingabe ist leer)");
-            return new int[]{0, 0};
-        }
-        String[] tokens = string.split(" ");
-        int[] idAndAmount = new int[tokens.length];
-        for (int i = 0; i < tokens.length; i++) {
-            try {
-                idAndAmount[i] = Integer.parseInt(tokens[i]);
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        }
-
-        return idAndAmount;
     }
 }
