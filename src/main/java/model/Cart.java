@@ -46,7 +46,7 @@ public class Cart {
         return items.values().stream()
                 .reduce(0, Integer::sum);
     }
-    public void clear() {
+    public void empty() {
         items.clear();
     }
     public boolean contains(Item item) {
@@ -54,7 +54,7 @@ public class Cart {
     }
     public void printCart() {
         for (Item item : items.keySet()) {
-            System.out.printf("%5d %-15s %.2f€ ", item.getId(), item.getName(), item.getPrice() * items.get(item));
+            System.out.printf("%5d %-15s %.2f€ \n", item.getId(), item.getName(), item.getPrice() * items.get(item));
         }
     }
     public void fillCart(int[] idAndAmount){

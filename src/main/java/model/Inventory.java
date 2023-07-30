@@ -34,7 +34,7 @@ public class Inventory {
         groups = itemsManager.getGroups();
         items = itemsManager.getItems(null);
     }
-    public Item getItemById(int id) {
+    private Item getItemById(int id) {
         for (Item item : items) {
             if (item.getId() == id) {
                 return item;
@@ -43,7 +43,10 @@ public class Inventory {
         return null; // return null, wenn kein Artikel mit der gegebenen ID gefunden wurde
     }
     public Item fillCartFromInventory(int[] idAndAmount){
-	    // todo: reduce Inventory by amount
-        return getItemById(idAndAmount[0]);
+	    Item item = getItemById(idAndAmount[0]);
+        if (item != null){
+            item.decreaseStock(idAndAmount[1]);
+        }
+        return item;
     }
 }
