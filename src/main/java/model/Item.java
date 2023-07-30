@@ -2,6 +2,7 @@ package model;
 
 public class Item implements Comparable<Item> {
 
+  private int group_id;
   private int id;
   private String name; //name of the item
   private String measurement; //unit of measurement
@@ -15,7 +16,8 @@ public class Item implements Comparable<Item> {
     String measurement,
     double price,
     double stock,
-    String group
+    String group,
+    int group_id
   ) {
     this.id = id;
     this.name = name;
@@ -23,6 +25,7 @@ public class Item implements Comparable<Item> {
     this.price = price;
     this.stock = stock;
     this.group = group;
+    this.group_id = group_id;
   }
   public Item(int id, String name, double price){
     this.id = id;
@@ -71,5 +74,8 @@ public class Item implements Comparable<Item> {
   @Override
   public int compareTo(Item other) {
     return Double.compare(this.price, other.price);
+  }
+  public Integer getGroupId(){
+    return group_id;
   }
 }

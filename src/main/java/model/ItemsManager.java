@@ -33,7 +33,7 @@ public class ItemsManager {
         List<Item> items = new ArrayList<>();
         try {
             Statement stmt = dbConnection.getConnection().createStatement();
-            String query = "SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names " +
+            String query = "SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names, i.groups_id " +
                     "FROM items i " +
                     "JOIN groups g " +
                     "ON i.groups_id = g.groups_id";
@@ -52,7 +52,9 @@ public class ItemsManager {
                         rs.getString("measurement"),
                         rs.getDouble("item_price"),
                         rs.getDouble("item_amount"),
-                        rs.getString("group_names")
+                        rs.getString("group_names"),
+                        rs.getInt("groups_id")
+
                 );
                 items.add(item);
             }

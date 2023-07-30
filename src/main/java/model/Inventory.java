@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Inventory {
     private static Inventory instance;
@@ -20,8 +21,15 @@ public class Inventory {
     public List<Groups> getGroups() {
         return groups;
     }
-    public List<Item> getItems() {
-        return items;
+    public List<Item> getItems(Integer group_id) {
+        if (group_id == null){
+            return items;
+        }else {
+            // Filter items by group ID using Java 8 Stream API
+            return items.stream()
+                    .filter(item -> item.getGroupId() == group_id)
+                    .collect(Collectors.toList());
+        }
     }
     private void fetchInventory() {
         groups = itemsManager.getGroups();
