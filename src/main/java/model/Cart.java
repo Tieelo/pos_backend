@@ -58,6 +58,6 @@ public class Cart {
         }
     }
     public void fillCart(int[] idAndAmount){
-        addItem(inventory.fillCartfromInventory(idAndAmount),idAndAmount[1]);
+        addItem(inventory.fillCartFromInventory(idAndAmount),idAndAmount[1]);
     }
 }

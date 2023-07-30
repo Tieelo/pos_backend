@@ -25,7 +25,6 @@ public class Inventory {
         if (group_id == null){
             return items;
         }else {
-            // Filter items by group ID using Java 8 Stream API
             return items.stream()
                     .filter(item -> item.getGroupId() == group_id)
                     .collect(Collectors.toList());
@@ -43,9 +42,8 @@ public class Inventory {
         }
         return null; // return null, wenn kein Artikel mit der gegebenen ID gefunden wurde
     }
-    public Item fillCartfromInventory(int[] idAndAmount){
-        Item item = getItemById(idAndAmount[0]);
-        // todo: reduce Inventory by amount
-        return item;
+    public Item fillCartFromInventory(int[] idAndAmount){
+	    // todo: reduce Inventory by amount
+        return getItemById(idAndAmount[0]);
     }
 }
