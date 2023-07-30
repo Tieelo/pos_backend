@@ -43,4 +43,9 @@ public class Inventory {
         }
         return null; // return null, wenn kein Artikel mit der gegebenen ID gefunden wurde
     }
+    public Item fillCartfromInventory(int[] idAndAmount){
+        Item item = getItemById(idAndAmount[0]);
+        // todo: reduce Inventory by amount
+        return item;
+    }
 }

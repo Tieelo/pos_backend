@@ -12,34 +12,54 @@ public class SellingController {
     private Cart cart;
     private Inventory inventory;
     private MenuView menuView;
-    public SellingController(){
+
+    public SellingController() {
         printItemController = new PrintItemController();
         cart = Cart.getInstance();
         inventory = Inventory.getInstance();
         menuView = new MenuView();
     }
-    public void startSale(){
+
+    public void startSale() {
         printItemController.fetchAndPrintSellingItems();
         processInput();
     }
-    public void processInput(){
-        while (scanner.hasNextLine()){
+
+    public void processInput() {
+        while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
-            if (input.equals("fertig")){
+            if (input.equals("fertig")) {
                 break;
             } else if (input.equals("0")) {
                 menuView.displaySellingMenu();
+            } else if(input == null || input.isEmpty()) {
+                System.out.println("Ungueltige Eingabe (Eingabe ist leer)");
             } else {
                 int[] idAndAmount = seperateString(input);
-                fillCart(idAndAmount);
+                if (idAndAmount.length != 2 ){
+                    System.out.println("Ungueltige Eingabe (Falsche Menge an Integer)");
+                    continue;
+                }
+                cart.fillCart(idAndAmount);
+                cart.printCart();
             }
         }
     }
-    public void fillCart(int[] idAndAmount){
-        cart.addItem(inventory.getItemById(idAndAmount[0]),idAndAmount[1]);
-    }
-    public int[] seperateString(String string){
+    public int[] seperateString(String string) {
+        if (string == null || string.isEmpty()) {
+            System.out.println("Ungueltige Eingabe (Eingabe ist leer)");
+            return new int[]{0, 0};
+        }
         String[] tokens = string.split(" ");
-        return null;
+        int[] idAndAmount = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            try {
+                idAndAmount[i] = Integer.parseInt(tokens[i]);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+
+        return idAndAmount;
     }
 }

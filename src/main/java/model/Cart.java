@@ -3,20 +3,20 @@ package model;
 import java.util.HashMap;
 
 public class Cart {
+    private Inventory inventory;
     private static Cart singleInstance = null;
     private HashMap<Item, Integer> items;
-
     private Cart() {
+        inventory = Inventory.getInstance();
         items = new HashMap<>();
     }
-
     public static Cart getInstance() {
         if (singleInstance == null) {
             singleInstance = new Cart();
         }
         return singleInstance;
     }
-    public void addItem(Item item, int amount) {
+    private void addItem(Item item, int amount) {
         if (item == null){
             return;
         }
@@ -56,5 +56,8 @@ public class Cart {
         for (Item item : items.keySet()) {
             System.out.printf("%5d %-15s %.2f€ ", item.getId(), item.getName(), item.getPrice() * items.get(item));
         }
+    }
+    public void fillCart(int[] idAndAmount){
+        addItem(inventory.fillCartfromInventory(idAndAmount),idAndAmount[1]);
     }
 }
