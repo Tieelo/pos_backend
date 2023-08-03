@@ -63,8 +63,14 @@ public class Cart {
         return itemsInCart.values().stream()
                 .reduce(0, Integer::sum);
     }
-    public void empty() {
+    public void emptyCart() {
+        for (Map.Entry<Item, Integer> entry : itemsInCart.entrySet()) {
+            Item item = entry.getKey();
+            Integer amount = entry.getValue();
+            removeItem(item, amount);
+        }
         itemsInCart.clear();
+        itemIdMap.clear();
     }
     public boolean contains(Item item) {
         return itemsInCart.containsKey(item);
@@ -76,6 +82,9 @@ public class Cart {
     }
     public void fillCart(int[] idAndAmount){
         addItem(inventory.fillCartFromInventory(idAndAmount),idAndAmount[1]);
+    }
+    public Map<Item, Integer> getItemsInCart() {
+        return itemsInCart;
     }
 
 }

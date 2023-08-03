@@ -80,6 +80,15 @@ public class MenuController {
                     int[] idAndAmount = inputController.handleInput(input);
                     cart.removeItemById(idAndAmount);
                     break;
+                case 4://leert den Warenkorb
+                    cart.emptyCart();
+                    break;
+                case 5://Einkauf bezahlen
+                    System.out.println("Bestätigung:");
+                        //todo: Invoice and Receipt
+                    break;
+                case 6: //weiter einkaufen
+                    break;
             }
         }
     }
