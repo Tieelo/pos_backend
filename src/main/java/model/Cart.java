@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Cart {
@@ -18,7 +20,11 @@ public class Cart {
     }
     public static Cart getInstance() {
         if (singleInstance == null) {
-            singleInstance = new Cart();
+            synchronized (Cart.class) {
+                if (singleInstance == null) {
+                    singleInstance = new Cart();
+                }
+            }
         }
         return singleInstance;
     }
@@ -63,14 +69,14 @@ public class Cart {
         return itemsInCart.values().stream()
                 .reduce(0, Integer::sum);
     }
-    public void emptyCart() {
-        for (Map.Entry<Item, Integer> entry : itemsInCart.entrySet()) {
+    public void putCartBackToInventory() {
+        List<Map.Entry<Item, Integer>> entries = new ArrayList<>(itemsInCart.entrySet());
+        for (Map.Entry<Item, Integer> entry : entries) {
             Item item = entry.getKey();
             Integer amount = entry.getValue();
             removeItem(item, amount);
         }
-        itemsInCart.clear();
-        itemIdMap.clear();
+        emptyCart();
     }
     public boolean contains(Item item) {
         return itemsInCart.containsKey(item);
@@ -85,6 +91,10 @@ public class Cart {
     }
     public Map<Item, Integer> getItemsInCart() {
         return itemsInCart;
+    }
+    private void emptyCart(){
+        itemsInCart.clear();
+        itemIdMap.clear();
     }
 
 }

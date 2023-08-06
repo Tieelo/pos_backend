@@ -1,3 +1,4 @@
+/*
 package controller.terminal;
 
 import model.Cart;
@@ -17,6 +18,7 @@ public class SellingController {
 
     public SellingController() {
         printItemController = new PrintItemController();
+        menuController = new MenuController();
         inputController = new InputController();
         cart = Cart.getInstance();
         inventory = Inventory.getInstance();
@@ -40,3 +42,4 @@ public class SellingController {
         }
     }
 }
+*/

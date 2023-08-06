@@ -1,8 +1,11 @@
 package view.terminal;
 
+import model.ScannerSingleton;
+
 import java.util.Scanner;
 
 public class MenuView {
+    Scanner scanner = ScannerSingleton.getInstance().getScanner();
     public void displayMenu() {
         System.out.println("1. Anzeige Items");
         System.out.println("2. Verkaufen");
@@ -19,7 +22,6 @@ public class MenuView {
     public void pressEnterToContinue() {
         System.out.println("Press Enter key to continue...");
         try {
-            Scanner scanner = new Scanner(System.in);
             scanner.nextLine();
         } catch (Exception e) {
             System.out.println("An error occurred.");
@@ -35,7 +37,7 @@ public class MenuView {
         System.out.println("1. Anzeige Warenkorb");
         System.out.println("2. Andere Gruppe waehlen");
         System.out.println("3. Item aus Warenkorb entfernen");
-        System.out.println("4. Warenkorb vollstaendig leeren");
+        System.out.println("4. Einkauf verwerfen und neu starten");
         System.out.println("5. Einkauf bezahlen");
         System.out.println("6. weiter einkaufen");
     }
@@ -43,7 +45,7 @@ public class MenuView {
     public void chooseItems() {
         System.out.print(
                 """
-                        Gib '<Getränk> <Menge>' ein, die in den Warenkorb gelegt werden sollen gefolgt von 'Enter'
+                        Gib '<GetränkeID> <Menge>' ein, die in den Warenkorb gelegt werden sollen gefolgt von 'Enter'
                         Gib '0' ein um ins Menu zu gelangen\s
                         """
         );
