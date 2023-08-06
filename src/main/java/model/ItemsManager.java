@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsManager {
+class ItemsManager {
     private final DatabaseConnection dbConnection;
     public ItemsManager(){
         dbConnection = DatabaseConnection.getInstance();
