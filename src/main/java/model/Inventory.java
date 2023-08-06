@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,9 @@ public class Inventory {
     }
     public List<Item> getItems(Integer group_id) {
         if (group_id == null){
-            return items;
+            return items.stream()
+                    .sorted(Comparator.comparing(Item::getId)) // Hier sortieren wir die items nach Item::getId
+                    .collect(Collectors.toList());
         }else {
             return items.stream()
                     .filter(item -> item.getGroupId() == group_id)
@@ -53,6 +56,11 @@ public class Inventory {
         Item item = getItemById(idAndAmount[0]);
         if (item != null){
             item.increaseStock(idAndAmount[1]);
+        }
+    }
+    public void writeInventoryToDatabase() {
+        for(Item item : items) {
+            itemsManager.updateDatabaseFromInventory(item);
         }
     }
 }

@@ -42,10 +42,10 @@ public class Item implements Comparable<Item> {
   public int getId() {
     return id;
   }
-  public double getStock() {
+  public double getAmount() {
     return stock;
   }
-  public void setStock(double stock) {this.stock = stock; }
+  public void setAmount(double stock) {this.stock = stock; }
   public void decreaseStock(double amount) {
     if (stock >= amount) {
       stock -= amount;

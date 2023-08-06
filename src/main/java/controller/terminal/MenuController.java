@@ -1,6 +1,7 @@
 package controller.terminal;
 
 import model.Cart;
+import model.Receipt;
 import model.ScannerSingleton;
 import view.terminal.MenuView;
 import java.util.Scanner;
@@ -10,10 +11,12 @@ public class MenuController {
     private static MenuController instance = null;
     private final InputController inputController;
     private Cart cart;
+    private Receipt receipt;
     public MenuController() {
         printItemController = new PrintItemController();
+        receipt = new Receipt();
         inputController = InputController.getInstance();
-        this.cart = Cart.getInstance();
+        cart = Cart.getInstance();
     }
     public static MenuController getInstance() {
         if (instance == null) {
@@ -26,6 +29,7 @@ public class MenuController {
         MenuView view = new MenuView();
         boolean exit = false;
 
+        mainloop:
         while(!exit){
             view.displayMenu();
 
@@ -68,14 +72,14 @@ public class MenuController {
             }
         }
     }
-    public void sellingMenuOptions(){
+    public boolean sellingMenuOptions(){
         boolean exit = false;
-        MenuView view = new MenuView();
+        MenuView menuView = new MenuView();
 
-
+        sellingMenuLoop:
         while (!exit){
-            System.out.print("Bitte wählen sie eine Option: ");
-            view.displaySellingMenu();
+            System.out.println("Bitte wählen sie eine Option: ");
+            menuView.displaySellingMenu();
 
             int option = scanner.nextInt();
             inputController.swallowLeftOverNewline();
@@ -106,8 +110,10 @@ public class MenuController {
                 case 5://Einkauf bezahlen
                     System.out.println("Bestätigung:");
                     if (inputController.stringToChar() == 'j'){
+                        menuView.printReceipt();
+                        cart.sellCart();
                         exit = true;
-                        break;
+                        return true;
                     }
                         //todo: Invoice and Receipt
                     break;
@@ -117,16 +123,22 @@ public class MenuController {
                     break;
             }
         }
+        return exit;
     }
     public void startSale() {
         printItemController.fetchAndPrintSellingItems();
+
+        sellingLoop:
         while (scanner.hasNextLine()){
             String input = scanner.nextLine();
             //inputController.swallowLeftOverInput();
             if (input.equals("fertig")){
                 break;
             } else if (input.equals("0")||input.equals("menu")) {
-                this.sellingMenuOptions();
+                boolean doneShopping = this.sellingMenuOptions();
+                if (doneShopping){
+                    break sellingLoop;
+                }
             } else {
                 int[] idAndAmount = inputController.handleInput(input);
                 if (idAndAmount != null){

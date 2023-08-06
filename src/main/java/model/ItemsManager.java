@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -64,6 +65,18 @@ public class ItemsManager {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return items;
+    }
+    public void updateDatabaseFromInventory(Item item) {
+        try {
+            String query = "UPDATE items SET item_amount = ? WHERE items_id = ?";
+            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
+            pstmt.setDouble(1, item.getAmount());
+            pstmt.setInt(2, item.getId());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
     }
 
     // Other methods (addItem, deleteItem, updateItem) would be similar and accept an Item object as parameter

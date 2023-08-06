@@ -96,5 +96,10 @@ public class Cart {
         itemsInCart.clear();
         itemIdMap.clear();
     }
+    public void sellCart(){
+        inventory.writeInventoryToDatabase();
+        // todo : creating Invoice and write to DB
+        emptyCart();
+    }
 
 }

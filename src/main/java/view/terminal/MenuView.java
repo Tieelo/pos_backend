@@ -1,11 +1,15 @@
 package view.terminal;
 
+import model.Cart;
+import model.Receipt;
 import model.ScannerSingleton;
 
 import java.util.Scanner;
 
 public class MenuView {
     Scanner scanner = ScannerSingleton.getInstance().getScanner();
+    Receipt receipt = new Receipt();
+    Cart cart = Cart.getInstance();
     public void displayMenu() {
         System.out.println("1. Anzeige Items");
         System.out.println("2. Verkaufen");
@@ -49,5 +53,22 @@ public class MenuView {
                         Gib '0' ein um ins Menu zu gelangen\s
                         """
         );
+    }
+    public void printReceipt (){
+        System.out.println("\n\n");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("                       Super Bar");
+        System.out.println("                       Quittung");
+        System.out.println("                      ~~~~~~~~~");
+        System.out.println("Artikel            Preis pro Einheit              Menge");
+        System.out.println("________________________________________________");
+        System.out.println(receipt.getReceiptLines());
+        System.out.println("\nMenge der Artikel insgesamt : " + receipt.getTotalAmount());
+        System.out.printf("\nGesamtbetrag: %.2f€ \n", receipt.getTotalCost());
+        System.out.println("\n               Ende der Quittung");
+        System.out.println("\nVielen Dank für Ihren Besuch");
+        System.out.println("             Kommen Sie gerne wieder");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
     }
 }
