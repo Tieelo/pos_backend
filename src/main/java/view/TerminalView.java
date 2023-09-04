@@ -1,4 +1,4 @@
-package view.terminal;
+package view;
 
 import model.*;
 

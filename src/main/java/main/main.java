@@ -1,11 +1,10 @@
 package main;
 
-import controller.terminal.MenuController;
-import model.Inventory;
+import controller.TerminalController;
 
 public class main {
-    private static final MenuController menuController = new MenuController();
+    private static final TerminalController terminalController = TerminalController.getInstance();
     public static void main(String[] args) {
-        menuController.menuOptions();
+        terminalController.menuOptions();
     }
 }
