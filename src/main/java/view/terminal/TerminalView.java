@@ -1,12 +1,11 @@
 package view.terminal;
 
-import model.Cart;
-import model.Receipt;
-import model.ScannerSingleton;
+import model.*;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class MenuView {
+public class TerminalView {
     Scanner scanner = ScannerSingleton.getInstance().getScanner();
     Receipt receipt = new Receipt();
     Cart cart = Cart.getInstance();
@@ -70,5 +69,17 @@ public class MenuView {
         System.out.println("             Kommen Sie gerne wieder");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
+    }
+    public void printGroups(List<Groups> groups){
+        System.out.println("Welche Gruppe? <ID>");
+        System.out.println("ID  Gruppennamen \n");
+        for (Groups groupObject : groups) {
+            System.out.printf("%-3d %s \n", groupObject.getId(), groupObject.getName());
+        }
+    }
+    public void printItems(List<Item> items) {
+        for (Item item : items) {
+            System.out.println(item.toString());
+        }
     }
 }

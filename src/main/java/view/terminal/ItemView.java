@@ -1,3 +1,4 @@
+/*
 package view.terminal;
 
 import model.Groups;
@@ -24,6 +25,7 @@ public class ItemView {
     public void chooseGroup(){
     }
 
+*/
 /*    public void printReceipt(List<ItemManager.Item> receiptItems, double totalPrice, int countOfItems) {
         System.out.println("\n\n");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -43,5 +45,7 @@ public class ItemView {
         System.out.println("\nVielen Dank für Ihren Besuch");
         System.out.println("             Kommen Sie gerne wieder");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    }*/
+    }*//*
+
 }
+*/

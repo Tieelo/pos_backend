@@ -3,7 +3,7 @@ package controller.terminal;
 import model.Cart;
 import model.Receipt;
 import model.ScannerSingleton;
-import view.terminal.MenuView;
+import view.terminal.TerminalView;
 import java.util.Scanner;
 public class MenuController {
     private static final Scanner scanner = ScannerSingleton.getInstance().getScanner();   // zum Einlesen der Benutzereinzugaben
@@ -26,7 +26,7 @@ public class MenuController {
     }
 
     public void menuOptions() {
-        MenuView view = new MenuView();
+        TerminalView view = new TerminalView();
         boolean exit = false;
 
         mainloop:
@@ -74,12 +74,12 @@ public class MenuController {
     }
     public boolean sellingMenuOptions(){
         boolean exit = false;
-        MenuView menuView = new MenuView();
+        TerminalView terminalView = new TerminalView();
 
         sellingMenuLoop:
         while (!exit){
             System.out.println("Bitte wählen sie eine Option: ");
-            menuView.displaySellingMenu();
+            terminalView.displaySellingMenu();
 
             int option = scanner.nextInt();
             inputController.swallowLeftOverNewline();
@@ -108,9 +108,9 @@ public class MenuController {
                     exit = true;
                     break;
                 case 5://Einkauf bezahlen
-                    System.out.println("Bestätigung:");
+                    System.out.println("Bestätigung mit j:");
                     if (inputController.stringToChar() == 'j'){
-                        menuView.printReceipt();
+                        terminalView.printReceipt();
                         cart.sellCart();
                         exit = true;
                         return true;
@@ -133,7 +133,7 @@ public class MenuController {
             String input = scanner.nextLine();
             //inputController.swallowLeftOverInput();
             if (input.equals("fertig")){
-                break;
+                break sellingLoop;
             } else if (input.equals("0")||input.equals("menu")) {
                 boolean doneShopping = this.sellingMenuOptions();
                 if (doneShopping){
