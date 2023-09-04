@@ -6,30 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 public class Receipt {
-	private Map<Item, Integer> items;
-	private double totalCost;
-	private int totalAmount;
-	Cart cart = Cart.getInstance();
+	private Cart cart = Cart.getInstance();
 
 	public double getTotalCost() {
-		return totalCost;
+		return cart.getTotalCost();
 	}
 
 	public int getTotalAmount() {
-		return totalAmount;
-	}
-
-	public Receipt() {
-		items = cart.getItemsInCart();
-		totalCost = cart.getTotalCost();
-		totalAmount = cart.getItemCount();
+		return cart.getItemCount();
 	}
 
 	public Map<Item, Integer> getItems() {
-		return items;
+		return cart.getItemsInCart();
 	}
+
 	public List<String> getReceiptLines() {
 		List<String> lines = new ArrayList<>();
+		Map<Item, Integer> items = getItems();
 
 		for (Map.Entry<Item, Integer> entry : items.entrySet()) {
 			String line = String.format("%-19s %.2f€ %-12s %2d",
@@ -43,7 +36,4 @@ public class Receipt {
 
 		return lines;
 	}
-	//private cart
-	//cart to invoice
-	//
 }

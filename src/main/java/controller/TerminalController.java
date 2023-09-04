@@ -128,6 +128,7 @@ public class TerminalController {
                     startSale();// Aufruf des Verkaufscontrollers um den Verkaufsprozess zu starten.
                     break;
                 case 3:
+                    terminalView.viewInvoices();
                     // Aufruf der Methode, welche die letzten Rechnungen zeigt.
                     break;
                 case 4:

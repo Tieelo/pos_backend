@@ -46,14 +46,14 @@ public class Item implements Comparable<Item> {
     return stock;
   }
   public void setAmount(double stock) {this.stock = stock; }
-  public void decreaseStock(double amount) {
+  public void decreaseStock(int amount) {
     if (stock >= amount) {
       stock -= amount;
     } else {
       throw new IllegalArgumentException("Not enough in stock");
     }
   }
-  public void increaseStock(double amount){
+  public void increaseStock(int amount){
     this.stock = this.stock + amount;
   }
   @Override

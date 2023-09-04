@@ -7,11 +7,13 @@ import java.util.Map;
 
 public class Cart {
     private Inventory inventory;
+    private Invoice invoice;
     private static Cart singleInstance = null;
     private Map<Item, Integer> itemsInCart;
     private Map<Integer, Item> itemIdMap;
     private Cart() {
         inventory = Inventory.getInstance();
+        invoice = new Invoice();
         itemsInCart = new HashMap<>();
         itemIdMap = new HashMap<>();
     }
@@ -98,6 +100,7 @@ public class Cart {
     }
     public void sellCart(){
         inventory.writeInventoryToDatabase();
+        invoice.generateInvoice();
         // todo : creating Invoice and write to DB
         emptyCart();
     }

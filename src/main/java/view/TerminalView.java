@@ -54,6 +54,7 @@ public class TerminalView {
         );
     }
     public void printReceipt (){
+        List<String> receiptLines = receipt.getReceiptLines();
         System.out.println("\n\n");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("                       Super Bar");
@@ -61,7 +62,7 @@ public class TerminalView {
         System.out.println("                      ~~~~~~~~~");
         System.out.println("Artikel            Preis pro Einheit              Menge");
         System.out.println("________________________________________________");
-        System.out.println(receipt.getReceiptLines());
+        for (String line : receiptLines) {System.out.println(line);}
         System.out.println("\nMenge der Artikel insgesamt : " + receipt.getTotalAmount());
         System.out.printf("\nGesamtbetrag: %.2f€ \n", receipt.getTotalCost());
         System.out.println("\n               Ende der Quittung");
@@ -80,6 +81,13 @@ public class TerminalView {
     public void printItems(List<Item> items) {
         for (Item item : items) {
             System.out.println(item.toString());
+        }
+    }
+    public void viewInvoices() {
+        Invoice invoice = new Invoice();
+        List<String> invoices = invoice.getInvoices();
+        for (String i : invoices) {
+            System.out.println(i);
         }
     }
 }

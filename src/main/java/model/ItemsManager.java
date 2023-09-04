@@ -67,15 +67,16 @@ class ItemsManager {
         return items;
     }
     public void updateDatabaseFromInventory(Item item) {
-        try {
-            String query = "UPDATE items SET item_amount = ? WHERE items_id = ?";
-            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);
+        String query = "UPDATE items SET item_amount = ? WHERE items_id = ?";
+        try (PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query)) {
             pstmt.setDouble(1, item.getAmount());
             pstmt.setInt(2, item.getId());
             pstmt.executeUpdate();
-            pstmt.close();
+            dbConnection.getConnection().commit();    // Manually committing the transaction
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            // It might be better to log this or rethrow, depending on your handling strategy
+            System.err.println("Failed to update database from inventory for item id: " + item.getId());
+            e.printStackTrace();    // print full stack trace for more detailed debugging info
         }
     }
 
