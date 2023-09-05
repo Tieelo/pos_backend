@@ -48,7 +48,7 @@ public class MenuController {
                             view.pressEnterToContinue();
                             break;
                         case 2: //Gruppen
-                            printItemController.fetchAndPrintItemsByGroup();
+                            //printItemController.fetchAndPrintItemsByGroup();
                             view.pressEnterToContinue();
                             break;
                     }
@@ -118,7 +118,7 @@ public class MenuController {
                         //todo: Invoice and Receipt
                     break;
                 case 6: //weiter einkaufen
-                    printItemController.fetchAndPrintItemsByGroup();
+                    //printItemController.fetchAndPrintItemsByGroup();
                     exit = true;
                     break;
             }
