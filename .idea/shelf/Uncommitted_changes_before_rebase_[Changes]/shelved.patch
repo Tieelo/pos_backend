@@ -1,0 +1,213 @@
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module com.example.demo {\r\n  requires javafx.controls;\r\n  requires javafx.fxml;\r\n\r\n  requires org.controlsfx.controls;\r\n  requires org.kordamp.ikonli.javafx;\r\n  requires org.kordamp.bootstrapfx.core;\r\n  requires java.sql;\r\n  requires org.xerial.sqlitejdbc;\r\n\r\n  opens com.example.demo to javafx.fxml;\r\n  exports com.example.demo;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision 1f986cd488fffe938910d0ccfbe79941d7c459aa)
++++ b/src/main/java/module-info.java	(date 1693682903203)
+@@ -7,7 +7,9 @@
+   requires org.kordamp.bootstrapfx.core;
+   requires java.sql;
+   requires org.xerial.sqlitejdbc;
++    requires java.desktop;
+ 
+-  opens com.example.demo to javafx.fxml;
++    opens com.example.demo to javafx.fxml;
+   exports com.example.demo;
++  exports view.terminal;
+ }
+Index: src/main/java/model/ItemsManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model;\r\n\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.ResultSet;\r\nimport java.sql.Statement;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nclass ItemsManager {\r\n    private final DatabaseConnection dbConnection;\r\n    public ItemsManager(){\r\n        dbConnection = DatabaseConnection.getInstance();\r\n    }\r\n    public List<Groups> getGroups() {\r\n        List<Groups> groups = new ArrayList<>();\r\n        try {\r\n            Statement stmt = dbConnection.getConnection().createStatement();\r\n            ResultSet rs = stmt.executeQuery(\r\n                    \"SELECT groups_id, group_names FROM groups order by groups_id;\"\r\n            );\r\n            while (rs.next()) {\r\n                int groups_id = rs.getInt(\"groups_id\");\r\n                String group_names = rs.getString(\"group_names\");\r\n                groups.add(new Groups(groups_id, group_names));\r\n            }\r\n            rs.close();\r\n            stmt.close();\r\n        } catch (Exception e) {\r\n            System.err.println(e.getClass().getName() + \": \" + e.getMessage());\r\n        }\r\n        return groups;\r\n    }\r\n    public List<Item> getItems(Integer groupId) {\r\n        List<Item> items = new ArrayList<>();\r\n        try {\r\n            Statement stmt = dbConnection.getConnection().createStatement();\r\n            String query = \"SELECT i.items_id, i.item_name, g.measurement, i.item_price, i.item_amount, g.group_names, i.groups_id \" +\r\n                    \"FROM items i \" +\r\n                    \"JOIN groups g \" +\r\n                    \"ON i.groups_id = g.groups_id\";\r\n            if(groupId != null) {\r\n                query += \" WHERE i.groups_id=\" + groupId;\r\n            }\r\n\r\n            query += \" ORDER BY i.groups_id;\";\r\n\r\n            ResultSet rs = stmt.executeQuery(query);\r\n\r\n            while (rs.next()) {\r\n                Item item = new Item(\r\n                        rs.getInt(\"items_id\"),\r\n                        rs.getString(\"item_name\"),\r\n                        rs.getString(\"measurement\"),\r\n                        rs.getDouble(\"item_price\"),\r\n                        rs.getDouble(\"item_amount\"),\r\n                        rs.getString(\"group_names\"),\r\n                        rs.getInt(\"groups_id\")\r\n\r\n                );\r\n                items.add(item);\r\n            }\r\n            rs.close();\r\n            stmt.close();\r\n        } catch (Exception e) {\r\n            System.err.println(e.getClass().getName() + \": \" + e.getMessage());\r\n        }\r\n        return items;\r\n    }\r\n    public void updateDatabaseFromInventory(Item item) {\r\n        try {\r\n            String query = \"UPDATE items SET item_amount = ? WHERE items_id = ?\";\r\n            PreparedStatement pstmt = dbConnection.getConnection().prepareStatement(query);\r\n            pstmt.setDouble(1, item.getAmount());\r\n            pstmt.setInt(2, item.getId());\r\n            pstmt.executeUpdate();\r\n            pstmt.close();\r\n        } catch (Exception e) {\r\n            System.err.println(e.getClass().getName() + \": \" + e.getMessage());\r\n        }\r\n    }\r\n\r\n    // Other methods (addItem, deleteItem, updateItem) would be similar and accept an Item object as parameter\r\n    // They would execute the corresponding INSERT, DELETE or UPDATE query on the database\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/model/ItemsManager.java b/src/main/java/model/ItemsManager.java
+--- a/src/main/java/model/ItemsManager.java	(revision 1f986cd488fffe938910d0ccfbe79941d7c459aa)
++++ b/src/main/java/model/ItemsManager.java	(date 1693682903197)
+@@ -6,7 +6,7 @@
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+-class ItemsManager {
++public class ItemsManager {
+     private final DatabaseConnection dbConnection;
+     public ItemsManager(){
+         dbConnection = DatabaseConnection.getInstance();
+@@ -79,6 +79,8 @@
+         }
+     }
+ 
++
++
+     // Other methods (addItem, deleteItem, updateItem) would be similar and accept an Item object as parameter
+     // They would execute the corresponding INSERT, DELETE or UPDATE query on the database
+ }
+Index: src/main/java/view/terminal/PointOfSaleGUI.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/view/terminal/PointOfSaleGUI.java b/src/main/java/view/terminal/PointOfSaleGUI.java
+new file mode 100644
+--- /dev/null	(date 1693683149675)
++++ b/src/main/java/view/terminal/PointOfSaleGUI.java	(date 1693683149675)
+@@ -0,0 +1,154 @@
++package view.terminal;
++
++import controller.terminal.PrintItemController;
++import javafx.application.Application;
++import javafx.geometry.Insets;
++import javafx.geometry.Orientation;
++import javafx.geometry.Pos;
++import javafx.scene.Scene;
++import javafx.scene.control.Button;
++import javafx.scene.control.Label;
++import javafx.scene.control.ListView;
++import javafx.scene.control.SplitPane;
++import javafx.scene.layout.*;
++import javafx.stage.Stage;
++import model.Item;
++
++import java.util.List;
++
++public class PointOfSaleGUI extends Application {
++    private GridPane leftGridPane; // Das linke Panel
++    private PrintItemController itemController;
++    private ListView<String> orderListView;
++    private Label totalLabel; // Label zur Anzeige der Gesamtsumme
++
++    @Override
++    public void start(Stage primaryStage) {
++        primaryStage.setTitle("PoS Kassensystem");
++        itemController = new PrintItemController();
++
++        // Initialisiert das linke Panel
++        leftGridPane = createLeftPanel();
++
++        // SplitPane zum Aufteilen des rechten Panels in zwei Teile vertikal
++        SplitPane rightSplitPane = new SplitPane();
++        rightSplitPane.setOrientation(Orientation.VERTICAL);
++        rightSplitPane.setDividerPositions(0.7); // 70% oben, 30% unten
++
++        // ListView für die rechte Seite erstellen
++        ListView<String> listView = new ListView<>();
++
++        VBox bottomPane = new VBox();
++        bottomPane.setPadding(new Insets(10));
++        bottomPane.setSpacing(10);
++
++        // ListView für die Bestellübersicht erstellen
++        orderListView = new ListView<>();
++        orderListView.setPrefWidth(300); // Breite der Bestellübersicht anpassen
++
++        Button stornoButton = new Button("Storno");
++        stornoButton.setOnAction(event -> {
++            // Die ausgewählten Elemente aus der Bestellübersicht entfernen
++            String selectedItem = orderListView.getSelectionModel().getSelectedItem();
++            if (selectedItem != null) {
++                orderListView.getItems().remove(selectedItem);
++            }
++        });
++
++        // Checkout-Button hinzufügen
++        Button checkoutButton = new Button("Checkout");
++        checkoutButton.setOnAction(event -> {
++            // Den Checkout-Prozess implementieren
++        });
++
++        // Gesamtsumme anzeigen
++        totalLabel = new Label("Gesamtsumme: 0.00");
++
++        // UI-Elemente zur unteren VBox hinzufügen
++        bottomPane.getChildren().addAll(stornoButton, checkoutButton, totalLabel, orderListView);
++
++        // Füge die oberen und unteren Teile zum rechten SplitPane hinzu
++        rightSplitPane.getItems().addAll(listView, bottomPane);
++
++        // Erstelle einen StackPane für den gesamten Inhalt
++        StackPane root = new StackPane();
++
++        // SplitPane zum Aufteilen des Inhalts in links und rechts
++        SplitPane splitPane = new SplitPane(leftGridPane, rightSplitPane);
++        splitPane.setDividerPositions(0.3); // 30% links, 70% rechts
++
++        // Füge das SplitPane zum StackPane hinzu
++        root.getChildren().add(splitPane);
++
++        // Setze benutzerdefinierte Styles mithilfe von CSS
++        root.setStyle("-fx-background-color: #f0f0f0;"); // Hintergrundfarbe
++        totalLabel.setStyle("-fx-text-fill: #0073e6;"); // Textfarbe
++        stornoButton.setStyle("-fx-background-color: #e60000; -fx-text-fill: white;"); // Button-Farbe
++        checkoutButton.setStyle("-fx-background-color: #0073e6; -fx-text-fill: white;"); // Button-Farbe
++
++        leftGridPane.setTranslateY(-50);
++
++        Scene scene = new Scene(root, 1080, 640);
++
++        // Setze ein benutzerdefiniertes CSS-Stylesheet für die Szene
++        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
++
++        primaryStage.setScene(scene);
++        primaryStage.show();
++    }
++
++    public static void main(String[] args) {
++        launch(args);
++    }
++
++    // Methode zum Erstellen des linken Panels
++    private GridPane createLeftPanel() {
++        GridPane gridPane = new GridPane();
++        gridPane.setPadding(new Insets(20)); // Mehr Abstand zu den Rändern
++        gridPane.setAlignment(Pos.CENTER);
++        gridPane.setHgap(20); // Horizontaler Abstand zwischen den Buttons
++        gridPane.setVgap(20); // Vertikaler Abstand zwischen den Buttons
++
++        String[] buttonLabels = {
++                "Alkoholfrei", "Cocktails", "Mocktails", "Heissgetraenke",
++                "Wein", "Speisen", "Saft", "Groß"
++        };
++        int columns = 4; // Anzahl der Spalten
++        int rows = 2;    // Anzahl der Zeilen
++        for (int i = 0; i < buttonLabels.length; i++) {
++            Button button = new Button(buttonLabels[i]);
++            button.setMinSize(160, 160); // Größe der Buttons anpassen (doppelt so groß)
++            int column = i % columns;
++            int row = i / columns;
++            gridPane.add(button, column, row);
++
++            // Button-Event-Handler hinzufügen
++            button.setOnAction(event -> {
++                String buttonText = button.getText();
++                /*if ("Alkoholfrei".equals(buttonText)) {
++                    itemController.fetchAndPrintItemsByGroup(); // Hier den Gruppennamen anpassen
++                } else if ("Cocktails".equals(buttonText)) {
++                    itemController.fetchAndPrintItemsByGroup(); // Hier den Gruppennamen anpassen
++                }*/
++                // Fügen Sie weitere Bedingungen für andere Buttons hinzu, um die entsprechenden Funktionen aufzurufen.
++            });
++
++            // Button-Event-Handler hinzufügen, um das linke Panel zu leeren
++        }
++
++        return gridPane;
++    }
++
++    public void addToOrderListView(Item item) {
++        orderListView.getItems().add(item.getName()); // Fügen Sie den Artikelnamen zur Bestellübersicht hinzu
++    }
++
++    // Methode zum Entfernen eines Artikels aus der Bestellübersicht
++    public void removeFromOrderListView(Item item) {
++        orderListView.getItems().remove(item.getName()); // Entfernen Sie den Artikelnamen aus der Bestellübersicht
++    }
++
++    public void updateTotal(double total) {
++        totalLabel.setText("Gesamtsumme: " + String.format("%.2f", total));
++    }
++}
