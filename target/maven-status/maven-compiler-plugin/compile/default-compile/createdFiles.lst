@@ -1,0 +1,13 @@
+model\ItemsManager.class
+model\Cart.class
+model\Invoice.class
+model\DatabaseConnection.class
+model\Receipt.class
+module-info.class
+view\TerminalView.class
+controller\TerminalController.class
+model\Groups.class
+model\Item.class
+main\main.class
+model\Inventory.class
+model\ScannerSingleton.class

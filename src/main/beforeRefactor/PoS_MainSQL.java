@@ -1,32 +1,31 @@
-package PoS_Main;
+package beforeRefactor;
+
+import database.DatabaseConnection;
+import model.ItemsObject;
 
 import java.sql.*;
 import java.time.YearMonth;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class PoS_MainSQL {
-
-  private static final String DB_URL =
-    "jdbc:sqlite::resource:PoS_SQLite.sqlite";
   private static DatabaseConnection dbConnection;
   private static final int maxDisplayItems = 16; //idealerweise wird vor Programm Beginn abgefragt wie viele Zeilen die Datenbank hat und anschließen der Wert aller Zeilen als Wert gesetzt
-  private static final int maxBuyingItems = 20; //willkürlich, kann erhöht werden
-  private static final Items[] itemArray = new Items[maxDisplayItems]; //array für das Inventar
+  private static final ArrayList<ItemsObject> itemArrayList = new ArrayList<>(); //array für das Inventar
   private static int totalSQLItems = 0; //Counter für die Anzahl der items im Array
   private static double totalPrice = 0; //Akkumulierter Preis des Einkaufs
   private static int countOfItems = 0; //Laufvariable die zur Iteration durch das Array funktioniert und am Ende die Menge der Artikel selbst ausgibt
-
+  private static final Scanner scanner = new Scanner(System.in);
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
-    String input;
-    String[] boughtArrayToSQL = new String[maxBuyingItems];
-    String[] receiptItems = new String[maxBuyingItems];
+    //String[] boughtArrayToSQL = new String[maxBuyingItems];
+   // String[] receiptItems = new String[maxBuyingItems];
+    List<String> receiptItems = new ArrayList<>();
+    List<String> boughtArrayToSQL = new ArrayList<>();
 
     char exit = 'j'; // while Schleife um das Programm immer wieder von vorne starten zu lassen. Lässt sich sicher eleganter lösen, Lösung noch nicht bekannt
 
     while (exit != 'n') {
-      dbConnection = new DatabaseConnection(DB_URL);
+      dbConnection = DatabaseConnection.getInstance();
       clearScreen();
       System.out.println("Gib die <ID> der Gruppe ein");
       group_choose();
@@ -41,40 +40,41 @@ public class PoS_MainSQL {
 
       totalPrice = 0;
       countOfItems = 0; //Neuer Kauf, keine Artikel
-      while (!(input = in.nextLine()).equals("fertig")) {
-        if (input.equals("gruppen")) {
+      while (scanner.hasNextLine()) {
+        String input = scanner.nextLine();
+        if ( input.equals("fertig")){
+          break;
+        } else if (input.equals("gruppen")) {
           group_choose();
           printInventory();
-        }
+        } else {
         String[] tokens = input.split(" "); //Auftrennung des Strings in einzelne Strings zur Weiterverarbeitung
 
-        if (tokens.length > 1) { //umgeht eine Exception bei Ausbruch durch 'fertig'
+        if (tokens.length < 2) {
+          continue;//umgeht eine Exception bei Ausbruch durch 'fertig'
+        }
           String name = tokens[0];
-          tokens[1] = tokens[1].replaceAll(",", ".");
+          tokens[1] = tokens[1].replaceAll(",", "."); //Eventuelles Problem mit der SQL Querry umgangen
           double amount = Double.parseDouble(tokens[1]);
-          for (int count = 0; count < totalSQLItems; count++) {
-            if (itemArray[count].getName().equalsIgnoreCase(name)) {
-              receiptItems[countOfItems] =
-                String.format(
-                  "%-19s %.2f€ %-12s %.2f",
-                  name,
-                  itemArray[count].getPrice(),
-                  "",
-                  amount
-                );
-              boughtArrayToSQL[countOfItems] =
-                String.format(
-                  "%d %.2f %s %.2f %.2f",
-                  itemArray[count].getId(),
-                  itemArray[count].getStock() - amount,
-                  name,
-                  itemArray[count].getPrice(),
-                  amount
-                );
-              itemArray[count].decreaseStock(amount);
-              totalPrice += amount * itemArray[count].getPrice();
+          Optional<ItemsObject> optionalItem = itemArrayList.stream()
+                  .filter(item -> item.getName().equalsIgnoreCase(name))
+                  .findFirst();
+
+          if (optionalItem.isPresent()) {
+            ItemsObject item = optionalItem.get();
+            receiptItems.add(String.format(
+                    "%-19s %.2f€ %-12s %.2f",
+                    name, item.getPrice(), "", amount));
+            double newStock = item.getStock() - amount;
+            if (newStock >= 0){
+              boughtArrayToSQL.add(String.format(
+                      "%d %.2f %s %.2f %.2f",
+                      item.getId(), newStock, name, item.getPrice(), amount));
+              item.setStock(newStock);
+              totalPrice += amount * item.getPrice();
               countOfItems++;
-              break;
+            } else {
+              System.out.println("Der Bestand reicht nicht aus!");
             }
           }
         }
@@ -100,7 +100,7 @@ public class PoS_MainSQL {
     }
   }
 
-  public static void exportInvoice(String[] Einkauf) {
+  public static void exportInvoice(List<String> Einkauf) {
     String invoiceNr = "000000/00";
     String[] invoiceArray;
     int invoiceYear = YearMonth.now().getYear();
@@ -150,7 +150,7 @@ public class PoS_MainSQL {
     }
   }
 
-  public static void updateInventory(String[] Einkauf) {
+  public static void updateInventory(List<String> Einkauf) {
     try {
       Statement stmt = dbConnection.getConnection().createStatement();
       String[] export;
@@ -210,16 +210,16 @@ public class PoS_MainSQL {
     printGroups();
     System.out.println("Welche Gruppe? <ID>");
     int group_input = in.nextInt();
-    getItems(group_input);
+    getItemsFromDB(group_input);
   }
 
   public static void printInventory() {
     for (int i = 0; i < totalSQLItems; i++) {
-      System.out.println(itemArray[i].toString());
+      System.out.println(itemArrayList.get(i).toString());
     }
   }
 
-  public static void getItems(int group_input) {
+  public static void getItemsFromDB(int group_input) {
     try {
       Statement stmt = dbConnection.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery(
@@ -241,15 +241,15 @@ public class PoS_MainSQL {
         double stock = rs.getDouble("item_amount");
         String group_names = rs.getString("group_names");
 
-        itemArray[totalSQLItems] =
-          new Items(
+        itemArrayList.add(
+          new ItemsObject(
             items_id,
             item_name,
             measurement,
             item_price,
             stock,
             group_names
-          );
+          ));
         totalSQLItems++;
       }
       rs.close();
@@ -259,7 +259,7 @@ public class PoS_MainSQL {
     }
   }
 
-  public static void printReceipt(String[] receiptItems) {
+  public static void printReceipt(List<String> receiptItems) {
     System.out.println("\n\n");
     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     System.out.println("           		   Super Bar\n");
@@ -270,7 +270,7 @@ public class PoS_MainSQL {
     );
     System.out.println("______________________________________________\n");
     for (int i = 0; i < countOfItems; i++) {
-      System.out.println(receiptItems[i]);
+      System.out.println(receiptItems.get(i));
     }
     System.out.println("\nMenge der Artikel insgesamt : " + countOfItems);
     System.out.printf("\nGesamtbetrag: %.2f€ \n", totalPrice);
