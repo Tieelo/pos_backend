@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import javafx.scene.control.ListView;
-import model.ButtonCreation;
+import model.gui.ButtonCreation;
 import model.Cart;
 import model.Item;
 
@@ -50,8 +50,7 @@ public class FXGui extends Application {
         Cart cart = Cart.getInstance();
         CartView.add(listView, 0,0);
         listView.setItems(FXCollections.observableArrayList(cart.getItemsInCart().keySet().stream().map(Item::getName).collect(Collectors.toList())));
-        items.add("Item 1");
-        items.add("Item 2");
+
         // Total $ set Box Horizontal
         HBox totalAmount = new HBox();
         totalAmount.setAlignment(Pos.CENTER);

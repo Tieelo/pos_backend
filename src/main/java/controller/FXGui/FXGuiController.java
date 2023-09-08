@@ -45,7 +45,8 @@ public class FXGuiController {
 
     }
 
-    private void updateListView(ListView<String> listView, Cart cart) {
+    private void updateListView(ListView<String> listView) {
+
         listView.setItems(FXCollections.observableArrayList(cart.getItemsInCart().keySet().stream().map(Item::getName).collect(Collectors.toList())));
     }
 

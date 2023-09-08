@@ -12,4 +12,5 @@ module com.example.demo {
   exports view;
     exports view.FXGui;
     exports model;
+	exports model.gui;
 }

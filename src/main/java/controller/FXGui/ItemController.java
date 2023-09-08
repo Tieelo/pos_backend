@@ -1,19 +1,14 @@
 package controller.FXGui;
 
-import controller.terminal.InputController;
 import javafx.scene.control.ListView;
 import model.Inventory;
 import model.Item;
-import view.terminal.ItemView;
-import view.terminal.MenuView;
 
 import java.util.List;
 
 public class ItemController {
 
     private Inventory inventory;
-    private MenuView menuView;
-    private InputController inputController;
 
     public ItemController() {
         inventory = Inventory.getInstance();
