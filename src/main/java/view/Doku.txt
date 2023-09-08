@@ -1,0 +1,33 @@
+Point-of-Sale (PoS) Kassensystem
+Einführung
+Das Point-of-Sale (PoS) Kassensystem ist eine Anwendung, die es Benutzern ermöglicht, Artikel aus verschiedenen Kategorien auszuwählen, sie zur Bestellung hinzuzufügen und den Checkout-Prozess durchzuführen. Dieses Dokument dient als Benutzeranleitung für die Anwendung.
+
+Installation
+Die Anwendung wurde in JavaFX entwickelt und kann auf jedem System ausgeführt werden, auf dem Java installiert ist. Führen Sie die folgenden Schritte aus, um die Anwendung auszuführen:
+
+Stellen Sie sicher, dass Java auf Ihrem System installiert ist.
+Laden Sie die JAR-Datei oder das Projekt herunter.
+Führen Sie die JAR-Datei aus oder importieren Sie das Projekt in Ihre bevorzugte Entwicklungsumgebung und starten Sie es.
+Benutzeroberfläche
+Die Benutzeroberfläche der PoS-Anwendung besteht aus zwei Hauptteilen: dem linken Panel mit Kategorien und dem rechten Panel mit der Bestellübersicht.
+
+Linke Panel (Kategorien)
+Das linke Panel enthält verschiedene Kategorien von Artikeln, die als Schaltflächen dargestellt sind.
+Benutzer können auf eine Kategorie klicken, um Artikel dieser Kategorie anzuzeigen. TODO
+Artikel können durch Klicken auf die entsprechenden Schaltflächen ausgewählt und zur Bestellung hinzugefügt werden. TODO
+
+Rechte Panel (Bestellübersicht)
+Das rechte Panel zeigt eine Liste der ausgewählten Artikel in der Bestellübersicht an.
+Benutzer können Artikel aus der Bestellübersicht entfernen, indem sie sie auswählen und die "Storno"-Schaltfläche verwenden. TODO
+Die Gesamtsumme der ausgewählten Artikel wird angezeigt.
+Der "Checkout"-Button ermöglicht es Benutzern, den Checkout-Prozess zu starten.
+
+Verwendung
+Hier sind einige Schritte, wie Sie die PoS-Anwendung verwenden können:
+
+Starten Sie die Anwendung.
+Wählen Sie eine Kategorie aus dem linken Panel aus, um die Artikel dieser Kategorie anzuzeigen.
+Klicken Sie auf die Schaltflächen der gewünschten Artikel, um sie zur Bestellübersicht hinzuzufügen.
+Überprüfen Sie die Bestellübersicht auf der rechten Seite und entfernen Sie Artikel nach Bedarf.
+Überprüfen Sie die Gesamtsumme der ausgewählten Artikel unterhalb der Bestellübersicht.
+Klicken Sie auf "Checkout", um den Bezahlvorgang zu starten (diese Funktion kann noch implementiert werden).

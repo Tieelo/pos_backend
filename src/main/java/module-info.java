@@ -9,4 +9,7 @@ module com.example.demo {
   requires org.xerial.sqlitejdbc;
 
   opens com.example.demo to javafx.fxml;
+  exports view;
+    exports view.FXGui;
+    exports model;
 }
