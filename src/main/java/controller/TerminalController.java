@@ -1,6 +1,7 @@
 package controller;
 
-import model.*;
+import model.database.Inventory;
+import model.objects.*;
 import view.TerminalView;
 import java.util.List;
 import java.util.Scanner;

@@ -1,6 +1,7 @@
 package view;
 
-import model.*;
+import model.database.Invoice;
+import model.objects.*;
 
 import java.util.List;
 import java.util.Scanner;

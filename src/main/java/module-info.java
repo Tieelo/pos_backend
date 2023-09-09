@@ -10,7 +10,7 @@ module com.example.demo {
 
   opens com.example.demo to javafx.fxml;
   exports view;
-    exports view.FXGui;
-    exports model;
-	exports model.gui;
+  exports model.gui;
+	exports model.database;
+  exports model.objects;
 }
