@@ -1,19 +1,12 @@
 package controller.FXGui;
 
 
-import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import model.Inventory;
-import model.Item;
 import model.*;
-
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
+import model.gui.ButtonCreation;
 
 
 public class FXGuiController {
@@ -22,39 +15,59 @@ public class FXGuiController {
 
     private Inventory inventory;
     private Cart cart = Cart.getInstance();
-    //private MenuView menuView;
-    //private InputController inputController;
+
+
+
 
     public FXGuiController() {
         inventory = Inventory.getInstance();
     }
-    public List<Item> fetchItemsByGroup(int group, ListView<Item> itemListView) {
-        List<Item> items = inventory.getItems(group);
 
-        // Clear the existing items in itemListView
-        itemListView.getItems().clear();
+    private static double total = view.FXGui.FXGui.getTotal();
+    private static HBox totalAmount = view.FXGui.FXGui.getTotalAmount();
 
-        // Add the extracted items to itemListView
-        itemListView.getItems().addAll(items);
+    private static Label totalAmountLabel = view.FXGui.FXGui.getTotalAmountLabel();
 
-        return items;
+    private static ListView<String> listView = view.FXGui.FXGui.getListView();
+
+    public static double updateTotal() {
+        Cart cart = Cart.getInstance();
+            total = cart.getTotalCost();
+        return total;
     }
 
-    public void addItemToCart() {
-        Cart.getInstance();
-
+    public static void setTotal(double total) {
+        FXGuiController.total = total;
     }
 
-    private void updateListView(ListView<String> listView) {
-
-        listView.setItems(FXCollections.observableArrayList(cart.getItemsInCart().keySet().stream().map(Item::getName).collect(Collectors.toList())));
+    public static Label getTotalAmountLabel() {
+        return totalAmountLabel;
     }
 
+    public static Label updateLabel() {
+        double total = updateTotal();
+        String formattedTotal = String.format("%.1f", total);
+        totalAmountLabel.setText("Total: " + formattedTotal + "$");
 
+        return totalAmountLabel;
+    }
 
+    public static void clearCart() {
+        listView.getItems().clear();
+        controller.FXGui.FXGuiController.setTotal(0);
+        controller.FXGui.FXGuiController.updateTotal();
+        controller.FXGui.FXGuiController.updateLabel();
+        totalAmount.getChildren().clear();
+        totalAmount.getChildren().add(totalAmountLabel);
+    }
 
-
-
-
-
+    public static void addToList() {
+        Cart cart = Cart.getInstance();
+        ListView<String> listView = view.FXGui.FXGui.getListView();
+        listView.setItems(ButtonCreation.MapToList(cart.getItemsInCart()));
+        controller.FXGui.FXGuiController.updateTotal();
+        controller.FXGui.FXGuiController.updateLabel();
+        totalAmount.getChildren().clear();
+        totalAmount.getChildren().add(view.FXGui.FXGui.getTotalAmountLabel());
+    }
 }
