@@ -97,6 +97,16 @@ public class Cart {
     public Map<Item, Integer> getItemsInCart() {
         return itemsInCart;
     }
+    public List<CartItem> getItemsFromCart() {
+        List<CartItem> cartItems = new ArrayList<>();
+
+        for (Map.Entry<Item, Integer> entry : itemsInCart.entrySet()) {
+            CartItem cartItem = new CartItem(entry.getKey(), entry.getValue());
+            cartItems.add(cartItem);
+        }
+
+        return cartItems;
+    }
     private void emptyCart(){
         itemsInCart.clear();
         itemIdMap.clear();
