@@ -1,4 +1,4 @@
-package model.objects;
+package org.pos_backend.model.objects;
 
 import java.util.ArrayList;
 import java.util.List;

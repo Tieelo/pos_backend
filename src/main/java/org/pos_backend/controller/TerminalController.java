@@ -1,8 +1,8 @@
-package controller;
+package org.pos_backend.controller;
 
-import model.database.Inventory;
-import model.objects.*;
-import view.TerminalView;
+import org.pos_backend.model.database.Inventory;
+import org.pos_backend.model.objects.*;
+import org.pos_backend.view.TerminalView;
 import java.util.List;
 import java.util.Scanner;
 

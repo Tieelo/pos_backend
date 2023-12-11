@@ -1,4 +1,4 @@
-package model.database;
+package org.pos_backend.model.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

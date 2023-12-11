@@ -1,4 +1,4 @@
-package model.objects;
+package org.pos_backend.model.objects;
 
 public class Item implements Comparable<Item> {
 

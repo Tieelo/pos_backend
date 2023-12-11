@@ -1,7 +1,7 @@
-package model.objects;
+package org.pos_backend.model.objects;
 
-import model.database.Inventory;
-import model.database.Invoice;
+import org.pos_backend.model.database.Inventory;
+import org.pos_backend.model.database.Invoice;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package model.database;
+package org.pos_backend.model.database;
 
-import model.objects.Cart;
-import model.objects.Item;
+import org.pos_backend.model.objects.Cart;
+import org.pos_backend.model.objects.Item;
 
 import java.sql.*;
 import java.time.YearMonth;

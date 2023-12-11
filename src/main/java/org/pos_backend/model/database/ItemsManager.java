@@ -1,7 +1,7 @@
-package model.database;
+package org.pos_backend.model.database;
 
-import model.objects.Groups;
-import model.objects.Item;
+import org.pos_backend.model.objects.Groups;
+import org.pos_backend.model.objects.Item;
 
 import java.sql.*;
 import java.util.ArrayList;

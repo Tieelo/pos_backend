@@ -1,7 +1,7 @@
-package view;
+package org.pos_backend.view;
 
-import model.database.Invoice;
-import model.objects.*;
+import org.pos_backend.model.database.Invoice;
+import org.pos_backend.model.objects.*;
 
 import java.util.List;
 import java.util.Scanner;
