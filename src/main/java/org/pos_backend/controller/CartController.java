@@ -35,7 +35,7 @@ public class CartController {
 		return ResponseEntity.ok(total);
 	}
 
-	@PostMapping("/items/remove/{id}/{amount}")
+	@PostMapping("/items/remove/")
 	public ResponseEntity<Void> removeItemById(@RequestBody int [] idAndAmount){
 		cart.removeItemById(idAndAmount);
 		return ResponseEntity.ok().build();
