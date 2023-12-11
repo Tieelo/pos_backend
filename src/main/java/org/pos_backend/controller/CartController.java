@@ -1,15 +1,11 @@
 package org.pos_backend.controller;
 
-import org.pos_backend.model.database.Inventory;
 import org.pos_backend.model.objects.Cart;
 import org.pos_backend.model.objects.CartItem;
-import org.pos_backend.model.objects.Groups;
-import org.pos_backend.model.objects.Item;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
