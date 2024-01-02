@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class CartController {
 
 	private final Cart cart;
