@@ -4,15 +4,13 @@ import org.pos_backend.model.database.Inventory;
 import org.pos_backend.model.objects.Groups;
 import org.pos_backend.model.objects.Item;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory")
+@CrossOrigin(origins = "*")
 public class InventoryController {
 
 	private final Inventory inventory;
