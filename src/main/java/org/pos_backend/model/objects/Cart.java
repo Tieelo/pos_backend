@@ -37,7 +37,7 @@ public class Cart {
         if (item == null){
             return;
         }
-        itemsInCart.put(item, amount);
+        itemsInCart.put(item, itemsInCart.getOrDefault(item, 0) + amount);
         itemIdMap.put(item.getId(), item);
     }
     public void removeItemById(int[] idAndAmount) {
