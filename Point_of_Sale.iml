@@ -4,8 +4,8 @@
     <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/com/example" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/com/example/demo" />
-      <excludeFolder url="file://$MODULE_DIR$/src/main/java/controller/terminal" />
-      <excludeFolder url="file://$MODULE_DIR$/src/main/java/view/terminal" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/org/pos_backend/controller/terminal" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/org/pos_backend/view/terminal" />
     </content>
   </component>
   <component name="CheckStyle-IDEA-Module" serialisationVersion="2">

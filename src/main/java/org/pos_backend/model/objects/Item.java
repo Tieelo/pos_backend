@@ -1,4 +1,6 @@
-package model.objects;
+package org.pos_backend.model.objects;
+
+import com.google.gson.Gson;
 
 public class Item implements Comparable<Item> {
 
@@ -56,7 +58,7 @@ public class Item implements Comparable<Item> {
   public void increaseStock(int amount){
     this.stock = this.stock + amount;
   }
-  @Override
+/*  @Override
   public String toString() {
     return String.format(
       "%5d %-15s %-15s %.2f€, %.2f %s im Inventar",
@@ -66,7 +68,12 @@ public class Item implements Comparable<Item> {
       price,
       stock,
       measurement );
-  }
+  }*/
+@Override
+public String toString() {
+  Gson gson = new Gson();
+  return gson.toJson(this);
+}
   public String[] toStringArray(){
 	  return new String[]{String.valueOf(id), group, name, String.valueOf(price), String.valueOf(stock), measurement};
   }

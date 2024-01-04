@@ -1,6 +1,6 @@
-package main;
+package org.pos_backend.main;
 
-import controller.TerminalController;
+import org.pos_backend.controller.TerminalController;
 
 public class main {
     private static final TerminalController terminalController = TerminalController.getInstance();

@@ -1,7 +1,7 @@
 package beforeRefactor;
 
 import database.DatabaseConnection;
-import model.ItemsObject;
+import org.pos_backend.model.ItemsObject;
 
 import java.sql.ResultSet;
 import java.sql.Statement;

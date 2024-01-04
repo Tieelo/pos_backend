@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "e498aeba-3567-45b7-a511-f69d2f5328bb",
+		"name": "POS_Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23968553"
+	},
+	"item": [
+		{
+			"name": "Get Groups",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:11386/api/inventory/groups",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"inventory",
+						"groups"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/inventory/items?groupId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"inventory",
+						"items"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Item in Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[14, 1]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:11386/api/cart/fill",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"fill"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get total",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/cart/total",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"total"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item Count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/cart/count",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Items in Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/cart/items",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put Cart back",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/cart/return",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"return"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove item from cart",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[15,1]"
+				},
+				"url": {
+					"raw": "localhost:11386/api/cart/remove",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sell Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:11386/api/cart/sell",
+					"host": [
+						"localhost"
+					],
+					"port": "11386",
+					"path": [
+						"api",
+						"cart",
+						"sell"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

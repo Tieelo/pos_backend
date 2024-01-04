@@ -1,7 +1,7 @@
-package model.objects;
+package org.pos_backend.model.objects;
 
-import model.database.Inventory;
-import model.database.Invoice;
+import org.pos_backend.model.database.Inventory;
+import org.pos_backend.model.database.Invoice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class Cart {
         if (item == null){
             return;
         }
-        itemsInCart.put(item, amount);
+        itemsInCart.put(item, itemsInCart.getOrDefault(item, 0) + amount);
         itemIdMap.put(item.getId(), item);
     }
     public void removeItemById(int[] idAndAmount) {
@@ -96,6 +96,16 @@ public class Cart {
     }
     public Map<Item, Integer> getItemsInCart() {
         return itemsInCart;
+    }
+    public List<CartItem> getItemsFromCart() {
+        List<CartItem> cartItems = new ArrayList<>();
+
+        for (Map.Entry<Item, Integer> entry : itemsInCart.entrySet()) {
+            CartItem cartItem = new CartItem(entry.getKey(), entry.getValue());
+            cartItems.add(cartItem);
+        }
+
+        return cartItems;
     }
     private void emptyCart(){
         itemsInCart.clear();
