@@ -10,5 +10,5 @@ RUN apk upgrade --no-cache &&\
 COPY  /deployment/ /opt/
 RUN chmod 777 -R /opt/
 
-#CMD ["java", "-jar", "/opt/app.jar"]
-ENTRYPOINT ["/opt/entrypoint.sh"]
+CMD ["java", "-jar", "/opt/app.jar"]
+#ENTRYPOINT ["/opt/entrypoint.sh"]
