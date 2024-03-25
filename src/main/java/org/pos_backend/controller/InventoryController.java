@@ -1,4 +1,4 @@
-package org.pos_backend.controller;
+package pos_backend.controller;
 
 import org.pos_backend.model.database.Inventory;
 import org.pos_backend.model.objects.Groups;
