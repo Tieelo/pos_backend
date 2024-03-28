@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>PoS_Main</groupId>
-    <artifactId>Point_of_Sale</artifactId>
+    <artifactId>point_of_sale</artifactId>
     <version>0.1.5</version>
-    <name>Point_of_Sale</name>
+    <name>point_of_sale</name>
     <description>POS Backend</description>
 
     <properties>
@@ -20,19 +20,19 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sqlite.version>3.42.0</sqlite.version>
+        <sqlite.version>3.45.2</sqlite.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.42.0.0</version>
+            <version>3.45.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
+            <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -78,7 +78,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>java.org.pos_backend.POSBackend</mainClass>
+                            <mainClass>org.pos_backend.pos_backend</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -86,7 +86,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
