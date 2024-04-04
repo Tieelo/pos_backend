@@ -10,9 +10,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>PoS_Main</groupId>
-    <artifactId>point_of_sale</artifactId>
+    <artifactId>pos_backend</artifactId>
     <version>0.1.5</version>
-    <name>point_of_sale</name>
+    <name>pos_backend</name>
     <description>POS Backend</description>
 
     <properties>

@@ -1,4 +1,5 @@
 #!/bin/bash
+cd "$(dirname "$0")" && cd ..
 
 export APPLICATION="point_of_sale"
 export VERSION=$(grep -m 1 "^#" semver.txt | cut -c 2-)

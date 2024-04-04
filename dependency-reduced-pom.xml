@@ -8,8 +8,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>PoS_Main</groupId>
-  <artifactId>point_of_sale</artifactId>
-  <name>point_of_sale</name>
+  <artifactId>pos_backend</artifactId>
+  <name>pos_backend</name>
   <version>0.1.5</version>
   <description>POS Backend</description>
   <build>

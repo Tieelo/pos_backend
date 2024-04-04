@@ -1,13 +1,12 @@
 #!/bin/bash
 set -o errexit
+cd "$(dirname "$0")" && cd ..
 
 export APPLICATION="pos_backend"
 
 export VERSION="$(grep -m 1 "^#" semver.txt | cut -c 2-)"
 export TAG="${APPLICATION}:${VERSION}"
 export VOLUME_NAME="pos_data_volume"
-
-cd "$(dirname "$(dirname "$0")")"
 
 mvn clean install
 #cp ./target/${APPLICATION}-${VERSION}-shaded.jar ./deployment/app.jar
