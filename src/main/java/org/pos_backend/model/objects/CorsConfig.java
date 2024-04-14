@@ -10,8 +10,8 @@ public class CorsConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-				.allowedOrigins("*") // Replace with the URL of your frontend
-				.allowedMethods("GET", "POST", "PUT", "DELETE")
-				.allowedHeaders("*");
+				.allowedOrigins("https://posweb.tieelo.de", "https://authelia.tieelo.de", "*"); // Replace with the URL of your frontend
+/*				.allowedMethods("GET", "POST", "PUT", "DELETE")
+				.allowedHeaders("*");*/
 	}
 }
