@@ -10,9 +10,9 @@ public class CorsConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-				.allowedOrigins("https://posweb.tieelo.de", "https://authelia.tieelo.de")
+				.allowedOrigins("https://posweb.tieelo.de", "https://authelia.tieelo.de", "*")
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-				.allowedHeaders("*")
+				.allowedHeaders("Content-Type", "Authorization", "*")
 				.allowCredentials(true);
 	}
 }
