@@ -17,8 +17,8 @@ public class CorsConfig implements WebMvcConfigurer {
 						"http://localhost:8080",
 						"https://pos.tieelo.de:444",
 						"http://192.168.10.14:8080",
-						"http://[2003:103:818:22a0::51]:8080",
-						"http://[2003:103:818:22a0::50]:8080"
+						"http://[2003:103:818:22a0::50]",
+						"http://192.168.110.50"
 				)
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
 				.allowedHeaders("Content-Type", "Authorization", "*")
