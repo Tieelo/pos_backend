@@ -10,7 +10,7 @@ import java.util.Properties;
 class DatabaseConnection {
   private static DatabaseConnection instance;
   private final Connection dbConn;
-  private static final String DB_PROP_FILE= "/opt/application.properties"; // Stellen Sie sicher, dass Sie Ihren eigenen Pfad hier einfügen
+  private static final String DB_PROP_FILE= "C:\\dev\\repositorys\\Privat\\pos_backend\\src\\main\\resources\\application.properties"; // Stellen Sie sicher, dass Sie Ihren eigenen Pfad hier einfügen
   private static final String DB_URL_PROP = "spring.datasource.url";
   private String DB_URL;
 
